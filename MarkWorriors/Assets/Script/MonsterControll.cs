@@ -21,9 +21,8 @@ public class MonsterControll : MonoBehaviour
     private Transform monsterTransform;
     private Transform playerTransform;
     private NavMeshAgent nvAgent;
-    Vector3 reactVec;
-    float yVelocity;
 
+    Vector3 velocity;
     Vector3 monsterLook;
     Material mat;
     CharacterController monsterCC;
@@ -59,6 +58,14 @@ public class MonsterControll : MonoBehaviour
         if (isAttackDone)
         {
             monsterCC.Move(-monsterTransform.forward * nvAgent.speed * Time.deltaTime);
+        }
+        if (isDead)
+        {
+            if (!monsterCC.isGrounded)
+            {
+                velocity.y += gravity * Time.deltaTime;
+                monsterCC.Move(velocity * Time.deltaTime);
+            }
         }
     }
     IEnumerator CheckState()
@@ -106,15 +113,15 @@ public class MonsterControll : MonoBehaviour
                     Targeting();
                     //anim.SetBool("isTrace", true);
                     break;
-                //case CurrentState.attack:
-                //    nvAgent.isStopped = true;
-                //    //anim.SetBool("isAttack", true);
-                //    yield return new WaitForSeconds(0.2f);
-                //    monsterCollider.enabled = true;
-                //    yield return new WaitForSeconds(0.5f);
-                //    //anim.SetBool("isAttack", false);
-                //    monsterCollider.enabled = false;
-                //    break;
+                    //case CurrentState.attack:
+                    //    nvAgent.isStopped = true;
+                    //    //anim.SetBool("isAttack", true);
+                    //    yield return new WaitForSeconds(0.2f);
+                    //    monsterCollider.enabled = true;
+                    //    yield return new WaitForSeconds(0.5f);
+                    //    //anim.SetBool("isAttack", false);
+                    //    monsterCollider.enabled = false;
+                    //    break;
             }
             yield return null;
         }
@@ -140,7 +147,7 @@ public class MonsterControll : MonoBehaviour
         }
 
         RaycastHit[] rayHits = Physics.SphereCastAll(transform.position, targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
-        
+
         if (rayHits.Length > 0 && !isAttack)
         {
             StartCoroutine(Attack());
@@ -183,7 +190,7 @@ public class MonsterControll : MonoBehaviour
             isAttack = false;
             nvAgent.isStopped = false;
         }
-        
+
     }
     void MonsterMove()
     {
@@ -199,11 +206,11 @@ public class MonsterControll : MonoBehaviour
         {
             Weapon weapon = other.GetComponent<Weapon>();
             monsterHP -= weapon.damage;
-            reactVec = monsterTransform.position - other.transform.position;
-            StartCoroutine(OnDamage(reactVec));
+
+            StartCoroutine(OnDamage());
         }
     }
-    IEnumerator OnDamage(Vector3 reactVec)
+    IEnumerator OnDamage()
     {
         Color monsterColor = mat.color;
         mat.color = Color.red;
@@ -215,14 +222,14 @@ public class MonsterControll : MonoBehaviour
         }
         else
         {
+            isAttack = false;
             isDead = true;
-            nvAgent.enabled = false; //사망 리액션을 유지하기 위해(nav가 켜져있으면 mesh 위에서만 움직임.)
+            //nvAgent.enabled = false; //사망 리액션을 유지하기 위해(nav가 켜져있으면 mesh 위에서만 움직임.)
 
             mat.color = Color.gray;
             gameObject.layer = 10;
-            reactVec = reactVec.normalized;
-            reactVec += Vector3.up;
-            
+
+            velocity = (-monsterTransform.forward + monsterTransform.up) * 3;
             //죽었을 때 위로 살짝 튀어오르는 모션추가해야 됨.
             Destroy(gameObject, 3);
         }
