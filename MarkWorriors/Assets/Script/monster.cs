@@ -10,6 +10,10 @@ public class monster : MonoBehaviour
     private Vector3 dir;
     CharacterController cc;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        Application.targetFrameRate = 40;
+    }
     void Start()
     {
         cc = GetComponent<CharacterController>();

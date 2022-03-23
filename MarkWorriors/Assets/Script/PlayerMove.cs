@@ -14,7 +14,10 @@ public class PlayerMove : MonoBehaviour
     bool isDamage;
 
     MeshRenderer meshes;
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        Application.targetFrameRate = 40;
+    }
     void Start()
     {
         cc = this.gameObject.GetComponent<CharacterController>();

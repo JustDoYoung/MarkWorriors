@@ -38,6 +38,10 @@ public class MonsterControll : MonoBehaviour
     private bool isDead = false;
     private Animator anim;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        Application.targetFrameRate = 40;
+    }
     void Start()
     {
         monsterTransform = this.gameObject.GetComponent<Transform>();
@@ -61,10 +65,15 @@ public class MonsterControll : MonoBehaviour
         }
         if (isDead)
         {
+            nvAgent.isStopped = true;
             if (!monsterCC.isGrounded)
             {
                 velocity.y += gravity * Time.deltaTime;
                 monsterCC.Move(velocity * Time.deltaTime);
+            }
+            else
+            {
+                //StopCoroutine("OnDamge");
             }
         }
     }
