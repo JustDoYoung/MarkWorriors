@@ -13,6 +13,8 @@ public class PlayerMove : MonoBehaviour
 
     bool isDamage;
 
+    CharacterStatus playerStatus;
+
     MeshRenderer meshes;
     private void Awake()
     {
@@ -22,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     {
         cc = this.gameObject.GetComponent<CharacterController>();
         meshes = this.gameObject.GetComponent<MeshRenderer>();
+        playerStatus = this.gameObject.GetComponent<CharacterStatus>();
         playerColor = meshes.material.color;
     }
 
@@ -69,9 +72,11 @@ public class PlayerMove : MonoBehaviour
         {
             if (!isDamage)
             {
-                AttackArea monsterAttack = other.gameObject.GetComponent<AttackArea>();
+                AttackAreaActivate monsterAttack = other.gameObject.GetComponent<AttackAreaActivate>();
                 hp -= monsterAttack.damage;
                 StartCoroutine(OnDamage());
+
+                playerStatus.SetDamage(1);
             }
         }
     }

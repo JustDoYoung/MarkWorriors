@@ -19,6 +19,6 @@ public class MonsterHP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HP = maxHP;
+        HP = maxHP; 
     }
 }

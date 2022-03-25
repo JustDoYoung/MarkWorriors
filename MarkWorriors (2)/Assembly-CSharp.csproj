@@ -57,15 +57,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\monster.cs" />
+    <Compile Include="Assets\Script\PatrolLocation.cs" />
     <Compile Include="Assets\Script\MonsterControll.cs" />
     <Compile Include="Assets\Script\CameraMove.cs" />
     <Compile Include="Assets\Script\Weapon.cs" />
     <Compile Include="Assets\Script\PlayerMove.cs" />
     <Compile Include="Assets\Script\TestEnemy.cs" />
-    <Compile Include="Assets\Script\AttackArea.cs" />
     <Compile Include="Assets\Script\MonsterRe.cs" />
-    <Compile Include="Assets\Script\PatrolLocation.cs" />
     <Compile Include="Assets\Script\MonsterHP.cs" />
+    <Compile Include="Assets\Script\AttackAreaActivate.cs" />
+    <Compile Include="Assets\Script\MonsterAnimEvent.cs" />
+    <Compile Include="Assets\Script\CharacterStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

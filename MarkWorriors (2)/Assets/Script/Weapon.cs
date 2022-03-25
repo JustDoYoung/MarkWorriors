@@ -6,16 +6,21 @@ public class Weapon : MonoBehaviour
 {
     public enum Type { melee }
     public Type type;
-    public int damage;
+    public int damage = 1;
     // Start is called before the first frame update
     private void Awake()
     {
         Application.targetFrameRate = 40;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.tag == "Monster")
+        {
+            MonsterRe monster = other.gameObject.GetComponent<MonsterRe>();
+            CharacterStatus characterStatus = other.gameObject.GetComponent<CharacterStatus>();
+            monster.GetDamageFromPlayer(damage);
+            characterStatus.SetDamage(damage);
+        }
     }
 }
