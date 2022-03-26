@@ -15,11 +15,25 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Monster")
+        if (other.gameObject.tag == "Demon")
         {
-            MonsterRe monster = other.gameObject.GetComponent<MonsterRe>();
+            DemonAttackPattern monster = other.gameObject.GetComponent<DemonAttackPattern>();
             CharacterStatus characterStatus = other.gameObject.GetComponent<CharacterStatus>();
-            monster.GetDamageFromPlayer(damage);
+            monster.GetDamageFromPlayer();
+            characterStatus.SetDamage(damage);
+        }
+        if (other.gameObject.tag == "UndeadKnight")
+        {
+            UndeadKnightAttackPattern monster = other.gameObject.GetComponent<UndeadKnightAttackPattern>();
+            CharacterStatus characterStatus = other.gameObject.GetComponent<CharacterStatus>();
+            monster.GetDamageFromPlayer();
+            characterStatus.SetDamage(damage);
+        }
+        if (other.gameObject.tag == "Skeleton")
+        {
+            SkeletonAttackPattern monster = other.gameObject.GetComponent<SkeletonAttackPattern>();
+            CharacterStatus characterStatus = other.gameObject.GetComponent<CharacterStatus>();
+            monster.GetDamageFromPlayer();
             characterStatus.SetDamage(damage);
         }
     }

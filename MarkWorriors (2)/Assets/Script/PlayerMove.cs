@@ -72,7 +72,7 @@ public class PlayerMove : MonoBehaviour
         {
             if (!isDamage)
             {
-                AttackAreaActivate monsterAttack = other.gameObject.GetComponent<AttackAreaActivate>();
+                MonsterAttackActivate monsterAttack = other.gameObject.GetComponent<MonsterAttackActivate>();
                 hp -= monsterAttack.damage;
                 StartCoroutine(OnDamage());
 

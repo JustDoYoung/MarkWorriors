@@ -7,6 +7,9 @@ TagManager:
   - MonsterAttack
   - Melee
   - Monster
+  - Demon
+  - UndeadKnight
+  - Skeleton
   layers:
   - Default
   - TransparentFX

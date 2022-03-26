@@ -167,13 +167,15 @@ public class CharacterStatus : MonoBehaviour
     public void SetDamage(int damage){
         HP -= damage;
         if(HP <= 0){
-            Death();
+            //Death();
+            //죽음 애니메이션 처리 때문에 MonsterRe.cs에서 애니메이션 이벤트 함수로 우선 대신함.(3월 26일 - 김도영)
         }
     }
 
     private void Death(){
         //GameManager.instance.ExpIncrease(deathExp);
         Destroy(this.gameObject, 1f);
+        
     }
 
     bool IsDeath(){
