@@ -21,7 +21,6 @@ public class MonsterRegenerator : MonoBehaviour
         //생성시간을 초과하면
         if(curtime > createTime)
         {
-            print("생성시간 : " + createTime);
             //공장에서 몬스터를 받아오고 싶다.
             int randValue = Random.Range(0, monsterFactory.Length);
             GameObject monster = Instantiate(monsterFactory[randValue]);

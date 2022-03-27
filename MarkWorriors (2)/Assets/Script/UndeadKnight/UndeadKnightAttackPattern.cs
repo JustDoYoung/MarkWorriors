@@ -74,6 +74,7 @@ public class UndeadKnightAttackPattern : MonoBehaviour
         {
             //공격하는 모션을 넣어주고 싶다.
             anim.SetTrigger("Attack");
+            anim.ResetTrigger("Chase");
             isAttack = true;
             isChase = false;
             isIdle = false;
@@ -89,8 +90,8 @@ public class UndeadKnightAttackPattern : MonoBehaviour
         if (distToPlayer > nvAgent.stoppingDistance)
         {
             print("공격 범위 밖으로 나감.");
-            //공격 중이 아니라는 걸 알리고 싶다.
-            isAttack = false;
+            ////공격 중이 아니라는 걸 알리고 싶다.
+            //isAttack = false;
             //상태를 Chase로 바꾸고 싶다.
             state = State.Chase;
         }
@@ -104,16 +105,16 @@ public class UndeadKnightAttackPattern : MonoBehaviour
             attackArea.MonsterAttack();
         }
 
-        //Attack 범위 밖으로 target이 나가면
-        float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
-        if (distToPlayer > nvAgent.stoppingDistance)
-        {
-            print("공격 범위 밖으로 나감.");
-            //공격 중이 아니라는 걸 알리고 싶다.
-            isAttack = false;
-            //상태를 Chase로 바꾸고 싶다.
-            state = State.Chase;
-        }
+        ////Attack 범위 밖으로 target이 나가면
+        //float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
+        //if (distToPlayer > nvAgent.stoppingDistance)
+        //{
+        //    print("공격 범위 밖으로 나감.");
+        //    //공격 중이 아니라는 걸 알리고 싶다.
+        //    isAttack = false;
+        //    //상태를 Chase로 바꾸고 싶다.
+        //    state = State.Chase;
+        //}
     }
 
     private void UpdateChase()
@@ -126,6 +127,8 @@ public class UndeadKnightAttackPattern : MonoBehaviour
         {
             print("isChase on");
             //추적 애니메이션을 취하고 싶다.
+            anim.ResetTrigger("Idle");
+            anim.ResetTrigger("Attack");
             anim.SetTrigger("Chase");
             isChase = true;
             isAttack = false;
@@ -136,14 +139,7 @@ public class UndeadKnightAttackPattern : MonoBehaviour
         nvAgent.destination = target.transform.position;
 
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
-        //추적범위 밖으로 target이 벗어나면
-        if (distToPlayer >= traceRadius)
-        {
-            print("추적범위 벗어남");
-            //상태를 Idle로 바꾸고 싶다.
-            state = State.Idle;
-        }
-        else if (distToPlayer < nvAgent.stoppingDistance)
+        if (distToPlayer < nvAgent.stoppingDistance)
         {
             //공격상태로 전이하고 싶다.
             state = State.Attack;
@@ -162,12 +158,15 @@ public class UndeadKnightAttackPattern : MonoBehaviour
         //    return;
         //}
 
+        //Idle 상태에선 추적기능을 멈추고 싶다.
         nvAgent.isStopped = true;
+
         //이전 상태가 Idle이 아니라면
         if (!isIdle)
         {
             print("Idle ON");
             //Idle 모션을 넣어주고 싶다.
+            anim.ResetTrigger("Chase");
             anim.SetTrigger("Idle");
             isChase = false;
             isAttack = false;
@@ -208,20 +207,21 @@ public class UndeadKnightAttackPattern : MonoBehaviour
         {
             print("React On");
             //움찔하는 애니메이션을 넣고 싶다.
-            //상태를 React로 하고 싶다.
-            state = State.React;
             anim.SetTrigger("React");
+            anim.ResetTrigger("Attack");
+
             isAttack = false;
             isChase = false;
             isIdle = false;
         }
     }
 
+    //리액션이 끝나면
     internal void OnMonsterReactAnimFinished()
     {
         print("React Off");
-        ////추적을 다시 시작하고 싶다.
-        nvAgent.isStopped = false;
+        //////추적을 다시 시작하고 싶다.
+        //nvAgent.isStopped = false;
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
         //공격범위 안에 플레이어가 있다면
         if (distToPlayer <= nvAgent.stoppingDistance)

@@ -83,6 +83,15 @@ public class DemonAttackPattern : MonoBehaviour
         Vector3 monsterLookForward = target.transform.position;
         monsterLookForward.y = transform.position.y;
         transform.LookAt(monsterLookForward);
+
+        //Attack 범위 밖으로 target이 나가면
+        if (distToPlayer > nvAgent.stoppingDistance)
+        {
+            //공격 중이 아니라는 걸 알리고 싶다.
+            isAttack = false;
+            //상태를 Chase로 바꾸고 싶다.
+            state = State.Chase;
+        }
     }
     internal void OnMonsterAttackHit()
     {
@@ -91,16 +100,6 @@ public class DemonAttackPattern : MonoBehaviour
         if (attackArea.isAttack)
         {
             attackArea.MonsterAttack();
-        }
-
-        //Attack 범위 밖으로 target이 나가면
-        float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
-        if (distToPlayer > nvAgent.stoppingDistance)
-        {
-            //공격 중이 아니라는 걸 알리고 싶다.
-            isAttack = false;
-            //상태를 Chase로 바꾸고 싶다.
-            state = State.Chase;
         }
     }
 
@@ -114,6 +113,8 @@ public class DemonAttackPattern : MonoBehaviour
         if (!isChase)
         {
             anim.SetTrigger("Chase");
+            anim.ResetTrigger("Attack");
+            anim.ResetTrigger("React");
             isChase = true;
             isAttack = false;
             isPatrol = false;
@@ -148,12 +149,12 @@ public class DemonAttackPattern : MonoBehaviour
             print("Patrol ON");
             //이동하는 모션을 넣어주고 싶다.
             anim.SetTrigger("Patrol");
+            anim.ResetTrigger("Chase");
             isChase = false;
             isAttack = false;
             isPatrol = true;
         }
-        ////UpdateChase에서 빠져 나올 때 nvAgent를 중단시킨 상태기 때문에 nvAgent.isStopped = false를 해준다
-        //nvAgent.isStopped = false;
+
         //거점을 지정하고 싶다.
         Vector3 patrolTarget = PatrolLocation.instance.patrolPoints[patrolIndex].transform.position;
         //길을 순환 이동하고 싶다.
@@ -208,9 +209,9 @@ public class DemonAttackPattern : MonoBehaviour
         {
             print("React On");
             //움찔하는 애니메이션을 넣고 싶다.
-            //상태를 React로 하고 싶다.
-            state = State.React;
             anim.SetTrigger("React");
+            anim.ResetTrigger("Attack");
+
             isAttack = false;
             isChase = false;
             isPatrol = false;

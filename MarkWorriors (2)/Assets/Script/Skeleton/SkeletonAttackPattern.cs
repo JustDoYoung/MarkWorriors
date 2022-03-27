@@ -101,15 +101,15 @@ public class SkeletonAttackPattern : MonoBehaviour
             attackArea.MonsterAttack();
         }
 
-        //Attack 범위 밖으로 target이 나가면
-        float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
-        if (distToPlayer > nvAgent.stoppingDistance)
-        {
-            //공격 중이 아니라는 걸 알리고 싶다.
-            isAttack = false;
-            //상태를 Chase로 바꾸고 싶다.
-            state = State.Chase;
-        }
+        ////Attack 범위 밖으로 target이 나가면
+        //float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
+        //if (distToPlayer > nvAgent.stoppingDistance)
+        //{
+        //    //공격 중이 아니라는 걸 알리고 싶다.
+        //    isAttack = false;
+        //    //상태를 Chase로 바꾸고 싶다.
+        //    state = State.Chase;
+        //}
     }
 
     private void UpdateChase()
@@ -121,7 +121,10 @@ public class SkeletonAttackPattern : MonoBehaviour
         //이전 상태가 추적상태가 아니었으면
         if (!isChase)
         {
+            print("Chase On");
             anim.SetTrigger("Chase");
+            anim.ResetTrigger("Attack");
+            anim.ResetTrigger("React");
             isChase = true;
             isAttack = false;
             isPatrol = false;
@@ -148,6 +151,7 @@ public class SkeletonAttackPattern : MonoBehaviour
 
     private void UpdatePatrol()
     {
+        nvAgent.isStopped = false;
         //몬스터의 이동속도를 2로 하고 싶다.
         nvAgent.speed = 2;
         //이전 상태가 이동이 아니라면
@@ -156,6 +160,7 @@ public class SkeletonAttackPattern : MonoBehaviour
             print("Patrol ON");
             //이동하는 모션을 넣어주고 싶다.
             anim.SetTrigger("Patrol");
+            anim.ResetTrigger("Chase");
             isChase = false;
             isAttack = false;
             isPatrol = true;
@@ -210,26 +215,30 @@ public class SkeletonAttackPattern : MonoBehaviour
             //상태를 Death로 하고 싶다.
             state = State.Death;
             //Death 애니메이션 삽입
+            anim.ResetTrigger("Attack");
+            anim.ResetTrigger("Chase");
+            anim.ResetTrigger("Patrol");
             anim.SetTrigger("Death");
         }//몬스터의 체력이 0이 아니라면 
         else
         {
             print("React On");
             //움찔하는 애니메이션을 넣고 싶다.
-            //상태를 React로 하고 싶다.
-            state = State.React;
             anim.SetTrigger("React");
+            anim.ResetTrigger("Attack");
+            anim.ResetTrigger("Chase");
+            anim.ResetTrigger("Patrol");
+
             isAttack = false;
             isChase = false;
             isPatrol = false;
         }
     }
 
+    //리액션이 끝났을 때
     internal void OnMonsterReactAnimFinished()
     {
         print("React Off");
-        ////추적을 다시 시작하고 싶다.
-        nvAgent.isStopped = false;
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
         //공격범위 안에 플레이어가 있다면
         if (distToPlayer <= nvAgent.stoppingDistance)
