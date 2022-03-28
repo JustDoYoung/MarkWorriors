@@ -60,18 +60,17 @@
     <Compile Include="Assets\Script\Trash\monster.cs" />
     <Compile Include="Assets\Script\PatrolLocation.cs" />
     <Compile Include="Assets\Script\Trash\MonsterControll.cs" />
+    <Compile Include="Assets\Script\MonsterRegenerator.cs" />
+    <Compile Include="Assets\Script\SkeletonAttackPattern.cs" />
     <Compile Include="Assets\Script\CameraMove.cs" />
     <Compile Include="Assets\Script\Weapon.cs" />
-    <Compile Include="Assets\Script\Demon\DemonAnimEvent.cs" />
+    <Compile Include="Assets\Script\UndeadKnightAttackPattern.cs" />
     <Compile Include="Assets\Script\PlayerMove.cs" />
-    <Compile Include="Assets\Script\Demon\DemonAttackPattern.cs" />
+    <Compile Include="Assets\Script\DemonAttackPattern.cs" />
     <Compile Include="Assets\Script\Trash\MonsterHP.cs" />
     <Compile Include="Assets\Script\MonsterAttackActivate.cs" />
-    <Compile Include="Assets\Script\Demon\MonsterRegenerator.cs" />
-    <Compile Include="Assets\Script\UndeadKnight\UndeadKnightAttackPattern.cs" />
-    <Compile Include="Assets\Script\UndeadKnight\UndeadKnightAnimEvent.cs" />
-    <Compile Include="Assets\Script\Skeleton\SkeletonAnimEvent.cs" />
-    <Compile Include="Assets\Script\Skeleton\SkeletonAttackPattern.cs" />
+    <Compile Include="Assets\Script\MonsterAttackPattern.cs" />
+    <Compile Include="Assets\Script\MonsterAnimEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
