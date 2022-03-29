@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5209324782276780621}
   - component: {fileID: 5209324782276780622}
   - component: {fileID: 5209324782276780656}
-  - component: {fileID: 5209324782276780617}
   - component: {fileID: 5209324782276780616}
   - component: {fileID: 5209324782276780655}
+  - component: {fileID: 5473790315454044959}
   m_Layer: 9
   m_Name: Skeleton1
   m_TagString: Enemy
@@ -125,26 +125,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5209324782276780617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5209324782276780657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd46c502e6fe4e849bceef41e19723b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathExp: 6
-  maxHP: 10
-  hp: 0
-  maxMP: 10
-  mp: 0
-  isNoramlAttackLock: 0
-  levelUpEffectFactory: {fileID: 0}
-  playerMediator: {fileID: 0}
 --- !u!54 &5209324782276780616
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -175,6 +155,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   traceZone: {fileID: 5209324783198079333}
   anim: {fileID: 5653302489725072120}
+--- !u!114 &5473790315454044959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5209324782276780657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a963fff7d7861ab408cd6e63e786a179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathExp: 6
+  maxHP: 100
+  hp: 0
+  maxMP: 10
+  mp: 0
+  isNoramlAttackLock: 0
+  levelUpEffectFactory: {fileID: 0}
 --- !u!1 &5209324782414319789
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 5209324783198079333}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 5209324782276780619}
   m_RootOrder: 0

@@ -1,48 +1,29 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32228.343
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{75921108-6048-0DE3-B547-6BAB9D061035}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{08119275-4860-e30d-b547-6bab9d061035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{26EAD635-1718-3914-6D59-053F837A7133}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{26ead635-1718-3914-6d59-053f837a7133}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{946C5F17-6577-FC8F-76D2-8DFB6D3732C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{946c5f17-6577-fc8f-76d2-8dfb6d3732c1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{CEFB6704-AC0C-6723-C947-8AA216991EE3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E5683E3-D09B-4669-BAC3-DBCD51D24D58}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{cefb6704-ac0c-6723-c947-8aa216991ee3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{75921108-6048-0DE3-B547-6BAB9D061035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75921108-6048-0DE3-B547-6BAB9D061035}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75921108-6048-0DE3-B547-6BAB9D061035}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75921108-6048-0DE3-B547-6BAB9D061035}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26EAD635-1718-3914-6D59-053F837A7133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26EAD635-1718-3914-6D59-053F837A7133}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26EAD635-1718-3914-6D59-053F837A7133}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26EAD635-1718-3914-6D59-053F837A7133}.Release|Any CPU.Build.0 = Release|Any CPU
-		{946C5F17-6577-FC8F-76D2-8DFB6D3732C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{946C5F17-6577-FC8F-76D2-8DFB6D3732C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{946C5F17-6577-FC8F-76D2-8DFB6D3732C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{946C5F17-6577-FC8F-76D2-8DFB6D3732C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEFB6704-AC0C-6723-C947-8AA216991EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEFB6704-AC0C-6723-C947-8AA216991EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEFB6704-AC0C-6723-C947-8AA216991EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEFB6704-AC0C-6723-C947-8AA216991EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08119275-4860-e30d-b547-6bab9d061035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08119275-4860-e30d-b547-6bab9d061035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26ead635-1718-3914-6d59-053f837a7133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26ead635-1718-3914-6d59-053f837a7133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{946c5f17-6577-fc8f-76d2-8dfb6d3732c1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{946c5f17-6577-fc8f-76d2-8dfb6d3732c1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{cefb6704-ac0c-6723-c947-8aa216991ee3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{cefb6704-ac0c-6723-c947-8aa216991ee3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CF9D7A46-7529-459E-ACE0-B4E9A340E18A}
 	EndGlobalSection
 EndGlobal

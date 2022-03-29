@@ -60,7 +60,7 @@ public class SswPlayerControllerMove : MonoBehaviour
     {
         Gravity();
         KeyMove();
-        Logger.Log("state2", ""+ yVelocity);
+//        Logger.Log("state2", ""+ yVelocity);
 //      print(currentJumpCount == 0 && Mathf.Abs(yVelocity) < 0.2f);
     }
 
@@ -193,8 +193,8 @@ public class SswPlayerControllerMove : MonoBehaviour
     }
 
     private Vector3 GetRunVector3(Vector3 dir) {
-        Logger.Log("테스트", "달리기, " + dir);
-        Logger.Log("테스트", ""+yVelocity);
+//        Logger.Log("테스트", "달리기, " + dir);
+//        Logger.Log("테스트", ""+yVelocity);
         
 
         dir.y = yVelocity;

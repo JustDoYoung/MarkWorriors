@@ -41,7 +41,7 @@ public class CharacterStatus : MonoBehaviour
     public int HP{
         get{return hp;}
         private set{
-            print("체력 세팅 : " + value);
+            //print("체력 세팅 : " + value);
             hp = value;
             if(hpSlider != null){hpSlider.value = value;}
             if(IsDeath()){

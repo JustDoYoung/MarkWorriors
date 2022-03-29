@@ -106,7 +106,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
      */
 
     public void OnIdleStartEvent(){
-        Logger.Log(Logger.Tag.State, "idle start");
+//        Logger.Log(Logger.Tag.State, "idle start");
         playerAnim.SetIdle();
         
     }
@@ -120,7 +120,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
 
     public void OnRunStartEvent()
     {
-        Logger.Log(Logger.Tag.State, "run start");
+//        Logger.Log(Logger.Tag.State, "run start");
         playerAnim.SetRun(true);
         playerCtrlMove.SetMoveVector3GetterType(CharacterState.Run);
     }
@@ -138,7 +138,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
 
     public void OnAttackStartEvent()
     {
-        Logger.Log(Logger.Tag.State, "attack start");
+//        Logger.Log(Logger.Tag.State, "attack start");
         rightWeaponHand.Attack(true);
     }
 
@@ -149,7 +149,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
      */
 
     public void OnIdleEndEvent(){
-        Logger.Log(Logger.Tag.State, "idle end");
+//        Logger.Log(Logger.Tag.State, "idle end");
     }
 
     public void OnWalkEndEvent()
@@ -160,7 +160,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
 
     public void OnRunEndEvent()
     {
-        Logger.Log(Logger.Tag.State, "run end");
+//        Logger.Log(Logger.Tag.State, "run end");
         playerAnim.SetRun(false);
     }
 
@@ -176,7 +176,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
 
     public void OnAttackEndEvent()
     {
-        Logger.Log(Logger.Tag.State, "attack end");
+//        Logger.Log(Logger.Tag.State, "attack end");
         rightWeaponHand.Attack(false);
         playerStatus.isNoramlAttackLock = false;
     }
@@ -212,7 +212,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
     public void OnAttack1MotionFinishedEvent(){
         playerStatus.isNoramlAttackLock = false;
         rightWeaponHand.Attack(false);
-        Logger.Log(Logger.Tag.State, "attack motion");
+//        Logger.Log(Logger.Tag.State, "attack motion");
     }
 
     // 임시
@@ -234,7 +234,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, OnAttackEvent
         }
         targetStatus.SetDamage(weaponStatus.power);
 
-        Logger.Log("ttt2", targetStatus.ToString());
+//        Logger.Log("ttt2", targetStatus.ToString());
 
         SkeletonAttackPattern skeleton = target.GetComponent<SkeletonAttackPattern>();
         DemonAttackPattern demon = target.GetComponent<DemonAttackPattern>();

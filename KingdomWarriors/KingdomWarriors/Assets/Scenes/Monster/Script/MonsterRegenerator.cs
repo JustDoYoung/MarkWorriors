@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterRegenerator : MonoBehaviour
 {
-    //·£´ıÇÑ ½Ã°£¿¡ ¸ó½ºÅÍ°¡ »ı¼ºµÇµµ·Ï ÇÏ°í ½Í´Ù.
+    //ëœë¤í•œ ì‹œê°„ì— ëª¬ìŠ¤í„°ê°€ ìƒì„±ë˜ë„ë¡ í•˜ê³  ì‹¶ë‹¤.
     float curtime;
     float createTime;
     public GameObject[] monsterFactory;
@@ -18,17 +18,17 @@ public class MonsterRegenerator : MonoBehaviour
     void Update()
     {
         curtime += Time.deltaTime;
-        //»ı¼º½Ã°£À» ÃÊ°úÇÏ¸é
+        //ìƒì„±ì‹œê°„ì„ ì´ˆê³¼í•˜ë©´
         if(curtime > createTime)
         {
-            //°øÀå¿¡¼­ ¸ó½ºÅÍ¸¦ ¹Ş¾Æ¿À°í ½Í´Ù.
+            //ê³µì¥ì—ì„œ ëª¬ìŠ¤í„°ë¥¼ ë°›ì•„ì˜¤ê³  ì‹¶ë‹¤.
             int randValue = Random.Range(0, monsterFactory.Length);
             GameObject monster = Instantiate(monsterFactory[randValue]);
-            //¹Ş¾Æ¿Â ¸ó½ºÅÍ¸¦ ÇöÀç À§Ä¡¿¡ ³õ°í ½Í´Ù.
+            //ë°›ì•„ì˜¨ ëª¬ìŠ¤í„°ë¥¼ í˜„ì¬ ìœ„ì¹˜ì— ë†“ê³  ì‹¶ë‹¤.
             monster.transform.position = transform.position;
-            //ÇöÀç½Ã°£À» 0À¸·Î ¸®¼ÂÇÏ°í ½Í´Ù.
+            //í˜„ì¬ì‹œê°„ì„ 0ìœ¼ë¡œ ë¦¬ì…‹í•˜ê³  ì‹¶ë‹¤.
             curtime = 0;
-            //»ı¼º½Ã°£À» ·£´ıÇÏ°Ô ÀçÁöÁ¤ÇÏ°í ½Í´Ù.
+            //ìƒì„±ì‹œê°„ì„ ëœë¤í•˜ê²Œ ì¬ì§€ì •í•˜ê³  ì‹¶ë‹¤.
             createTime = Random.Range(min, max);
         }
     }
