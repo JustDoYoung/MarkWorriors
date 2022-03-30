@@ -24,4 +24,15 @@ public class MonsterAttackActivate : MonoBehaviour
         AttackTrigger.enabled = false;
         isAttack = true;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            CharacterStatus status = other.gameObject.GetComponent<CharacterStatus>();
+            status.SetDamage(damage);
+        }
+        print("Player Attacked");
+
+    }
 }

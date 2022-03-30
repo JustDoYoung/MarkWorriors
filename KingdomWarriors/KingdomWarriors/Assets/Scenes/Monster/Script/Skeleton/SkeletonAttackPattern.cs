@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class SkeletonAttackPattern : MonsterAttackPatternCommon
 {
- 
+
     void Start()
     {
         nvAgent = GetComponent<NavMeshAgent>();
@@ -37,22 +37,14 @@ public class SkeletonAttackPattern : MonsterAttackPatternCommon
         //공격하는 동안 추적을 멈추고 싶다.
         nvAgent.isStopped = true;
 
-       setState(State.Attack, "Attack");
+        setState(State.Attack, "Attack");
 
         //몬스터가 플레이어를 바라보게 만들고 싶다.
         Vector3 monsterLookForward = target.transform.position;
         monsterLookForward.y = transform.position.y;
         transform.LookAt(monsterLookForward);
     }
-    internal void OnMonsterAttackHit()
-    {
-        //몬스터가 때리는 순간 공격 콜라이더를 활성화시키고 싶다.
-        attackArea = GetComponentInChildren<MonsterAttackActivate>();
-        if (attackArea.isAttack)
-        {
-            attackArea.MonsterAttack();
-        }
-    }
+
 
     private void UpdateChase()
     {
@@ -72,21 +64,21 @@ public class SkeletonAttackPattern : MonsterAttackPatternCommon
             //상태를 Patrol로 바꾸고 싶다.
             setState(State.Patrol, "Patrol");
         }
-        else if (distToPlayer < nvAgent.stoppingDistance+1)
+        else if (distToPlayer < nvAgent.stoppingDistance + 1)
         {
-            print("전이"+isAttack);
+            print("전이" + isAttack);
             //공격상태로 전이하고 싶다.
             setState(State.Attack, "Attack");
         }
     }
 
     private void UpdatePatrol()
-    {   
+    {
         //몬스터의 이동속도를 2로 하고 싶다.
         nvAgent.speed = 2;
 
         setState(State.Patrol, "Patrol");
-     
+
         //거점을 지정하고 싶다.
         Vector3 patrolTarget = PatrolLocation.instance.patrolPoints[patrolIndex].transform.position;
         //길을 순환 이동하고 싶다.

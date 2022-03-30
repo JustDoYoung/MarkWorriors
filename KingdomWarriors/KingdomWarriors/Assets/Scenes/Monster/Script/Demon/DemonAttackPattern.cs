@@ -6,11 +6,13 @@ using UnityEngine.AI;
 
 public class DemonAttackPattern : MonsterAttackPatternCommon
 {
+    Rigidbody rb;
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         nvAgent = GetComponent<NavMeshAgent>();
         traceRadius = traceZone.transform.localScale.x * 0.5f;
-        setState(State.Patrol, "Patrol");
+        setState(State.Idle, "Idle");
         patrolIndex = UnityEngine.Random.Range(0, PatrolLocation.instance.patrolPoints.Length);
         anim = GetComponentInChildren<Animator>();
     }
@@ -19,8 +21,8 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
     {
         switch (state)
         {
-            case State.Patrol:
-                UpdatePatrol();
+            case State.Idle:
+                UpdateIdle();
                 break;
             case State.Chase:
                 UpdateChase();
@@ -30,79 +32,72 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
                 break;
         }
     }
-
     private void UpdateAttack()
     {
         //공격 시도 중 플레이어가 범위 밖으로 나가면 미끄러지듯 접근하게 된다.(추적중지)
         //공격하는 동안 추적을 멈추고 싶다.
         nvAgent.isStopped = true;
 
-       setState(State.Attack, "Attack");
+        setState(State.Attack, "Attack");
 
         //몬스터가 플레이어를 바라보게 만들고 싶다.
         Vector3 monsterLookForward = target.transform.position;
         monsterLookForward.y = transform.position.y;
         transform.LookAt(monsterLookForward);
     }
-    internal void OnMonsterAttackHit()
+    IEnumerator UpdateRush()
     {
-        //몬스터가 때리는 순간 공격 콜라이더를 활성화시키고 싶다.
-        attackArea = GetComponentInChildren<MonsterAttackActivate>();
-        if (attackArea.isAttack)
-        {
-            attackArea.MonsterAttack();
-        }
+        setState(State.Rush, "Rush");
+        isAttack = true;
+        nvAgent.speed = 15;
+        nvAgent.acceleration = 20;
+        yield return new WaitForSeconds(1f);
+        anim.Rebind();
+        anim.SetTrigger("Idle");
+        yield return new WaitForSeconds(2f);
+        setState(State.Chase, "Chase");
+        isAttack = false;
     }
 
     private void UpdateChase()
     {
+        //print("Chase");
         //추적을 다시 시작하고 싶다.
         nvAgent.isStopped = false;
+
         //몬스터의 이동속도를 4로 하고 싶다.
         nvAgent.speed = 4;
 
-        setState(State.Chase, "Chase");
+        // setState(State.Chase, "Chase");
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
         //target 쪽으로 추적을 하고 싶다.
         nvAgent.destination = target.transform.position;
 
-        //추적범위 밖으로 target이 벗어나면
-        if (distToPlayer > traceRadius)
+        //몬스터의 정면에 플레이어가 있다면 돌진을 하고 싶다.
+        RaycastHit[] attackTarget = Physics.SphereCastAll(transform.position, 1f, transform.forward, traceRadius - 5, 1 << LayerMask.NameToLayer("Player"));
+
+        if (distToPlayer > nvAgent.stoppingDistance && attackTarget.Length > 0 && isAttack == false)
         {
-            //상태를 Patrol로 바꾸고 싶다.
-            setState(State.Patrol, "Patrol");
-        }
-        else if (distToPlayer < nvAgent.stoppingDistance+1)
-        {
-            print("전이"+isAttack);
+            //print("전이" + isAttack);
             //공격상태로 전이하고 싶다.
+            //돌진 애니메이션을 적용하고 싶다.
+            StopCoroutine(UpdateRush());
+            StartCoroutine(UpdateRush());
+        }
+        else if (distToPlayer < nvAgent.stoppingDistance + 1)
+        {
             setState(State.Attack, "Attack");
         }
+
+
     }
 
-    private void UpdatePatrol()
-    {   
-        //몬스터의 이동속도를 2로 하고 싶다.
-        nvAgent.speed = 2;
+    private void UpdateIdle()
+    {
+        //print("Idle");
+        nvAgent.isStopped = true;
+        setState(State.Idle, "Idle");
 
-        setState(State.Patrol, "Patrol");
-     
-        //거점을 지정하고 싶다.
-        Vector3 patrolTarget = PatrolLocation.instance.patrolPoints[patrolIndex].transform.position;
-        //길을 순환 이동하고 싶다.
-        nvAgent.destination = patrolTarget;
-        //만약 도착했다면? -> 다음 목적지로
-        float dist = Vector3.Distance(transform.position, patrolTarget);
-        if (dist <= 2f)
-        {
-            patrolIndex++;
-        }
-        //인덱스가 거점의 개수를 넘어가면
-        if (patrolIndex >= PatrolLocation.instance.patrolPoints.Length)
-        {
-            //0으로 초기화하고 싶다.
-            patrolIndex = 0;
-        }
         int layerMask = 1 << LayerMask.NameToLayer("Player"); //Player의 이름을 가진 Layer 인덱스
         //추적범위 traceZone 안에 Player가 있는지 계속 탐색하고 싶다.
         Collider[] cols = Physics.OverlapSphere(transform.position, traceRadius, layerMask);

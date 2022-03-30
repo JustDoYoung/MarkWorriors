@@ -9,6 +9,7 @@ public class MonsterAttackPatternCommon : MonoBehaviour
     {
         Idle,
         Patrol,
+        Rush,
         Chase,
         Attack,
         React,
@@ -33,17 +34,21 @@ public class MonsterAttackPatternCommon : MonoBehaviour
         if (state != next)
         {
             state = next;
-            // anim.ResetTrigger("Idle");
-            // anim.ResetTrigger("Patrol");
-            // anim.ResetTrigger("Chase");
-            // anim.ResetTrigger("Attack");
-            // anim.ResetTrigger("React");
-            // anim.ResetTrigger("Death");
             anim.Rebind();
             anim.SetTrigger(animationName);
             //anim.CrossFade(animationName, 0.1f);
         }
     }
+    internal void OnMonsterAttackHit()
+    {
+        //몬스터가 때리는 순간 공격 콜라이더를 활성화시키고 싶다.
+        attackArea = GetComponentInChildren<MonsterAttackActivate>();
+        if (attackArea.isAttack)
+        {
+            attackArea.MonsterAttack();
+        }
+    }
+
     public void GetDamageFromPlayer()
     {
         CharacterStatus characterStatus = gameObject.GetComponent<CharacterStatus>();
