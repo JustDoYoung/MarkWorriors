@@ -20,8 +20,8 @@ public class SswPlayerEffect : MonoBehaviour
         
     }
 
-    public void AttackEffect(Vector3 position, Quaternion rotation){
-        Instantiate(hitEffectFactory, position, rotation);
+    public void AttackEffect(Vector3 position){
+        Instantiate(hitEffectFactory, position, Quaternion.identity);
     }
 
     public void RecoveryHpEffect(){

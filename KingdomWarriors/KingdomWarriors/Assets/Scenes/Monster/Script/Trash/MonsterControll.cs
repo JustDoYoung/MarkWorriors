@@ -3,244 +3,246 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MonsterControll : MonoBehaviour
-{
-    //¸ó½ºÅÍ°¡ ÁÖº¯¹Ý°æÀ» °¨ÁöÇÑ´Ù.
-    //¹Ý°æ¿¡ ÇÃ·¹ÀÌ¾î°¡ ÀÖÀ¸¸é Á¢±ÙÇÑ´Ù.
-    public enum CurrentState { idle, trace, attack, dead };
-    public enum MonsterType { A, B, C };
-
-    public CurrentState curState = CurrentState.idle;
-    public GameObject traceRange;
-    public GameObject attackRange;
-    public BoxCollider monsterCollider;
-    public MonsterType monsterType;
-    public int monsterHP;
-    public float gravity = -9.8f;
-
-    private Transform monsterTransform;
-    private Transform playerTransform;
-    private NavMeshAgent nvAgent;
-
-    Vector3 velocity;
-    Vector3 monsterLook;
-    Material mat;
-    CharacterController monsterCC;
-
-    bool isAttack;
-    bool isAttackDone;
-
-    //ÃßÀû »çÁ¤°Å¸®
-    private float traceDist;
-    //°ø°Ý »çÁ¤°Å¸®
-    private float attackDist;
-    //»ç¸Á ¿©ºÎ
-    private bool isDead = false;
-    private Animator anim;
-    // Start is called before the first frame update
-    private void Awake()
+namespace Trash{
+    public class MonsterControll : MonoBehaviour
     {
-        Application.targetFrameRate = 40;
-    }
-    void Start()
-    {
-        monsterTransform = this.gameObject.GetComponent<Transform>();
-        playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        nvAgent = this.gameObject.GetComponent<NavMeshAgent>();
-        //anim = this.gameObject.GetComponent<Animator>();
-        mat = this.gameObject.GetComponentInChildren<MeshRenderer>().material;
-        monsterCC = this.gameObject.GetComponent<CharacterController>();
+        //ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Öºï¿½ï¿½Ý°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+        //ï¿½Ý°æ¿¡ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+        public enum CurrentState { idle, trace, attack, dead };
+        public enum MonsterType { A, B, C };
 
-        traceDist = traceRange.transform.localScale.x * 0.5f;
-        attackDist = attackRange.transform.localScale.x * 0.5f;
+        public CurrentState curState = CurrentState.idle;
+        public GameObject traceRange;
+        public GameObject attackRange;
+        public BoxCollider monsterCollider;
+        public MonsterType monsterType;
+        public int monsterHP;
+        public float gravity = -9.8f;
 
-        StartCoroutine(this.CheckState());
-        StartCoroutine(this.CheckStateForAction());
-    }
-    private void Update()
-    {
-        if (isAttackDone)
+        private Transform monsterTransform;
+        private Transform playerTransform;
+        private NavMeshAgent nvAgent;
+
+        Vector3 velocity;
+        Vector3 monsterLook;
+        Material mat;
+        CharacterController monsterCC;
+
+        bool isAttack;
+        bool isAttackDone;
+
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½
+        private float traceDist;
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½
+        private float attackDist;
+        //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        private bool isDead = false;
+        private Animator anim;
+        // Start is called before the first frame update
+        private void Awake()
         {
-            monsterCC.Move(-monsterTransform.forward * nvAgent.speed * Time.deltaTime);
+            Application.targetFrameRate = 40;
         }
-        if (isDead)
+        void Start()
         {
-            nvAgent.isStopped = true;
-            if (!monsterCC.isGrounded)
-            {
-                velocity.y += gravity * Time.deltaTime;
-                monsterCC.Move(velocity * Time.deltaTime);
-            }
-            else
-            {
-                //StopCoroutine("OnDamge");
-            }
+            monsterTransform = this.gameObject.GetComponent<Transform>();
+            playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+            nvAgent = this.gameObject.GetComponent<NavMeshAgent>();
+            //anim = this.gameObject.GetComponent<Animator>();
+            mat = this.gameObject.GetComponentInChildren<MeshRenderer>().material;
+            monsterCC = this.gameObject.GetComponent<CharacterController>();
+
+            traceDist = traceRange.transform.localScale.x * 0.5f;
+            attackDist = attackRange.transform.localScale.x * 0.5f;
+
+            StartCoroutine(this.CheckState());
+            StartCoroutine(this.CheckStateForAction());
         }
-    }
-    IEnumerator CheckState()
-    {
-        while (!isDead)
+        private void Update()
         {
-            yield return null;
-
-            float dist = Vector3.Distance(playerTransform.position, monsterTransform.position);
-
-            //if (dist <= attackDist)
-            //{
-            //    curState = CurrentState.attack;
-            //}
-            //else if (dist <= traceDist)
-            //{
-            //    curState = CurrentState.trace;
-            //}
-            //else
-            //{
-            //    curState = CurrentState.idle;
-            //}
-            if (dist <= traceDist)
+            if (isAttackDone)
             {
-                curState = CurrentState.trace;
+                monsterCC.Move(-monsterTransform.forward * nvAgent.speed * Time.deltaTime);
             }
-            else
+            if (isDead)
             {
-                curState = CurrentState.idle;
+                nvAgent.isStopped = true;
+                if (!monsterCC.isGrounded)
+                {
+                    velocity.y += gravity * Time.deltaTime;
+                    monsterCC.Move(velocity * Time.deltaTime);
+                }
+                else
+                {
+                    //StopCoroutine("OnDamge");
+                }
             }
         }
-    }
-
-    IEnumerator CheckStateForAction()
-    {
-        while (!isDead)
+        IEnumerator CheckState()
         {
-            switch (curState)
+            while (!isDead)
             {
-                case CurrentState.idle:
-                    nvAgent.isStopped = true;
-                    //anim.SetBool("isTrace", false);
-                    break;
-                case CurrentState.trace:
-                    Targeting();
-                    //anim.SetBool("isTrace", true);
-                    break;
-                    //case CurrentState.attack:
-                    //    nvAgent.isStopped = true;
-                    //    //anim.SetBool("isAttack", true);
-                    //    yield return new WaitForSeconds(0.2f);
-                    //    monsterCollider.enabled = true;
-                    //    yield return new WaitForSeconds(0.5f);
-                    //    //anim.SetBool("isAttack", false);
-                    //    monsterCollider.enabled = false;
-                    //    break;
+                yield return null;
+
+                float dist = Vector3.Distance(playerTransform.position, monsterTransform.position);
+
+                //if (dist <= attackDist)
+                //{
+                //    curState = CurrentState.attack;
+                //}
+                //else if (dist <= traceDist)
+                //{
+                //    curState = CurrentState.trace;
+                //}
+                //else
+                //{
+                //    curState = CurrentState.idle;
+                //}
+                if (dist <= traceDist)
+                {
+                    curState = CurrentState.trace;
+                }
+                else
+                {
+                    curState = CurrentState.idle;
+                }
             }
-            yield return null;
-        }
-    }
-    void Targeting()
-    {
-        MonsterMove();
-
-        float targetRadius = 0;
-        float targetRange = 0;
-        switch (monsterType)
-        {
-            case MonsterType.A:
-                targetRadius = 1.5f;
-                targetRange = attackDist;
-                break;
-            case MonsterType.B:
-                targetRadius = 1f;
-                targetRange = 10f;
-                break;
-            case MonsterType.C:
-                break;
         }
 
-        RaycastHit[] rayHits = Physics.SphereCastAll(transform.position, targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
-
-        if (rayHits.Length > 0 && !isAttack)
+        IEnumerator CheckStateForAction()
         {
-            StartCoroutine(Attack());
+            while (!isDead)
+            {
+                switch (curState)
+                {
+                    case CurrentState.idle:
+                        nvAgent.isStopped = true;
+                        //anim.SetBool("isTrace", false);
+                        break;
+                    case CurrentState.trace:
+                        Targeting();
+                        //anim.SetBool("isTrace", true);
+                        break;
+                        //case CurrentState.attack:
+                        //    nvAgent.isStopped = true;
+                        //    //anim.SetBool("isAttack", true);
+                        //    yield return new WaitForSeconds(0.2f);
+                        //    monsterCollider.enabled = true;
+                        //    yield return new WaitForSeconds(0.5f);
+                        //    //anim.SetBool("isAttack", false);
+                        //    monsterCollider.enabled = false;
+                        //    break;
+                }
+                yield return null;
+            }
         }
-    }
-
-    IEnumerator Attack()
-    {
-        while (!isDead)
+        void Targeting()
         {
-            isAttack = true;
-            nvAgent.isStopped = true;
+            MonsterMove();
 
+            float targetRadius = 0;
+            float targetRange = 0;
             switch (monsterType)
             {
                 case MonsterType.A:
-                    yield return new WaitForSeconds(0.2f);
-                    monsterCollider.enabled = true;
-
-                    yield return new WaitForSeconds(1f);
-                    monsterCollider.enabled = false;
+                    targetRadius = 1.5f;
+                    targetRange = attackDist;
                     break;
                 case MonsterType.B:
-                    yield return new WaitForSeconds(0.1f);
-                    nvAgent.speed = 3.5f;
-                    nvAgent.speed *= 3;
-                    nvAgent.acceleration = 100f;
-                    monsterCollider.enabled = true;
-                    yield return new WaitForSeconds(0.5f);
-                    nvAgent.speed = 3.5f;
-                    nvAgent.acceleration = 8f;
-                    monsterCollider.enabled = false;
-                    isAttackDone = true;
-                    yield return new WaitForSeconds(0.5f);
+                    targetRadius = 1f;
+                    targetRange = 10f;
                     break;
                 case MonsterType.C:
                     break;
             }
-            isAttackDone = false;
-            isAttack = false;
+
+            RaycastHit[] rayHits = Physics.SphereCastAll(transform.position, targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
+
+            if (rayHits.Length > 0 && !isAttack)
+            {
+                StartCoroutine(Attack());
+            }
+        }
+
+        IEnumerator Attack()
+        {
+            while (!isDead)
+            {
+                isAttack = true;
+                nvAgent.isStopped = true;
+
+                switch (monsterType)
+                {
+                    case MonsterType.A:
+                        yield return new WaitForSeconds(0.2f);
+                        monsterCollider.enabled = true;
+
+                        yield return new WaitForSeconds(1f);
+                        monsterCollider.enabled = false;
+                        break;
+                    case MonsterType.B:
+                        yield return new WaitForSeconds(0.1f);
+                        nvAgent.speed = 3.5f;
+                        nvAgent.speed *= 3;
+                        nvAgent.acceleration = 100f;
+                        monsterCollider.enabled = true;
+                        yield return new WaitForSeconds(0.5f);
+                        nvAgent.speed = 3.5f;
+                        nvAgent.acceleration = 8f;
+                        monsterCollider.enabled = false;
+                        isAttackDone = true;
+                        yield return new WaitForSeconds(0.5f);
+                        break;
+                    case MonsterType.C:
+                        break;
+                }
+                isAttackDone = false;
+                isAttack = false;
+                nvAgent.isStopped = false;
+            }
+
+        }
+        void MonsterMove()
+        {
             nvAgent.isStopped = false;
+            nvAgent.SetDestination(playerTransform.position);
+            monsterLook = playerTransform.position;
+            monsterLook.y = transform.position.y;
+            transform.LookAt(monsterLook);
         }
-
-    }
-    void MonsterMove()
-    {
-        nvAgent.isStopped = false;
-        nvAgent.SetDestination(playerTransform.position);
-        monsterLook = playerTransform.position;
-        monsterLook.y = transform.position.y;
-        transform.LookAt(monsterLook);
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Melee")
+        private void OnTriggerEnter(Collider other)
         {
-            Weapon weapon = other.GetComponent<Weapon>();
-            monsterHP -= weapon.damage;
+            if (other.gameObject.tag == "Melee")
+            {
+                Weapon weapon = other.GetComponent<Weapon>();
+                monsterHP -= weapon.damage;
 
-            StartCoroutine(OnDamage());
+                StartCoroutine(OnDamage());
+            }
         }
-    }
-    IEnumerator OnDamage()
-    {
-        Color monsterColor = mat.color;
-        mat.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-
-        if (monsterHP > 0)
+        IEnumerator OnDamage()
         {
-            mat.color = monsterColor;
-        }
-        else
-        {
-            isAttack = false;
-            isDead = true;
-            //nvAgent.enabled = false; //»ç¸Á ¸®¾×¼ÇÀ» À¯ÁöÇÏ±â À§ÇØ(nav°¡ ÄÑÁ®ÀÖÀ¸¸é mesh À§¿¡¼­¸¸ ¿òÁ÷ÀÓ.)
+            Color monsterColor = mat.color;
+            mat.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
 
-            mat.color = Color.gray;
-            gameObject.layer = 10;
+            if (monsterHP > 0)
+            {
+                mat.color = monsterColor;
+            }
+            else
+            {
+                isAttack = false;
+                isDead = true;
+                //nvAgent.enabled = false; //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½(navï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ mesh ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.)
 
-            velocity = (-monsterTransform.forward + monsterTransform.up) * 3;
-            //Á×¾úÀ» ¶§ À§·Î »ìÂ¦ Æ¢¾î¿À¸£´Â ¸ð¼ÇÃß°¡ÇØ¾ß µÊ.
-            Destroy(gameObject, 3);
+                mat.color = Color.gray;
+                gameObject.layer = 10;
+
+                velocity = (-monsterTransform.forward + monsterTransform.up) * 3;
+                //ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¦ Æ¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½.
+                Destroy(gameObject, 3);
+            }
         }
     }
 }

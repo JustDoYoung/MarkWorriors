@@ -49,7 +49,9 @@
   <ItemGroup>
      <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
      <Compile Include="Assets\Scenes\Player\Scripts\Common\SswCharacterStatus.cs" />
-     <Compile Include="Assets\Scenes\Player\Animation\SswPlayerAnimEventProxy.cs" />
+     <Compile Include="Assets\Scenes\Monster\Script\MonsterRegenerator.cs" />
+     <Compile Include="Assets\Scenes\Common\Scripts\CharacterState.cs" />
+     <Compile Include="Assets\Scenes\Player\Animations\SswPlayerAnimEventProxy.cs" />
      <Compile Include="Assets\Scenes\Monster\Script\Trash\monster.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_RotateCamera.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
@@ -59,7 +61,7 @@
      <Compile Include="Assets\Scenes\Monster\Script\Trash\MonsterControll.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\SceneAndURLLoader.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\LevelReset.cs" />
-     <Compile Include="Assets\Scenes\Monster\Script\MonsterRegenerator.cs" />
+     <Compile Include="Assets\Scenes\Monster\Script\Trash\Weapon.cs" />
      <Compile Include="Assets\Scenes\Monster\Script\Skeleton\SkeletonAttackPattern.cs" />
      <Compile Include="Assets\Scenes\Common\Scripts\GameManager.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoRotate.cs" />
@@ -69,7 +71,6 @@
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
      <Compile Include="Assets\Scenes\Player\Scripts\Player\SswPlayerShortcutKeys.cs" />
      <Compile Include="Assets\Scenes\Common\Scripts\CharacterStatus.cs" />
-     <Compile Include="Assets\Scenes\Monster\Script\Trash\Weapon.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
      <Compile Include="Assets\Scenes\Player\Scripts\Player\SswPlayerMediator.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\PauseMenu.cs" />
@@ -77,13 +78,14 @@
      <Compile Include="Assets\Scenes\Player\Scripts\Player\Bak\Bak_SswPlayerControllerMove.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\CameraSwitch.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_RandomDir.cs" />
-     <Compile Include="Assets\Scenes\Monster\Script\Trash\PlayerMove.cs" />
+     <Compile Include="Assets\Scenes\Monster\Script\MonsterAnimEvent.cs" />
      <Compile Include="Assets\Scenes\Player\Scripts\Player\Bak\Bak_SswPlayerMove.cs" />
      <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_Translate.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
      <Compile Include="Assets\Scenes\Player\Scripts\Weapon\WeaponWearableHand.cs" />
      <Compile Include="Assets\Scenes\Monster\Script\Demon\DemonAttackPattern.cs" />
+     <Compile Include="Assets\Scenes\Monster\Script\Trash\PlayerMove.cs" />
      <Compile Include="Assets\Scenes\Monster\Script\Trash\MonsterHP.cs" />
      <Compile Include="Assets\Scenes\Player\Scripts\Player\SswPlayerComboManager.cs" />
      <Compile Include="Assets\Scenes\Monster\Script\MonsterAttackActivate.cs" />
@@ -92,9 +94,8 @@
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoDestructShuriken.cs" />
      <Compile Include="Assets\Scenes\Monster\Script\Common\KdyCharacterStatus.cs" />
      <Compile Include="Assets\Scenes\Player\Scripts\Player\SswPlayerEffect.cs" />
-     <Compile Include="Assets\Scenes\Player\Scripts\Player\SswPlayerControllerMove.cs" />
+     <Compile Include="Assets\Scenes\Player\Scripts\Player\SswPlayerInputMove.cs" />
      <Compile Include="Assets\Scenes\Monster\Script\MonsterAttackPatternCommon.cs" />
-     <Compile Include="Assets\Scenes\Monster\Script\MonsterAnimEvent.cs" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Multiply Color.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX\CartoonFX Free.txt" />
      <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />

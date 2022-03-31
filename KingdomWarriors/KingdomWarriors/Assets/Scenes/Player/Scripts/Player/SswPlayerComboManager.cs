@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using CharacterState = SswCharacterStatus.CharacterState;
-
 public class SswPlayerComboManager : MonoBehaviour
 {
     private SswPlayerMediator playerMediator;
@@ -21,7 +19,7 @@ public class SswPlayerComboManager : MonoBehaviour
     }
 
     void CheckAttack(){
-        if(playerMediator.IsCheckState(CharacterState.Jump)){
+        if(playerMediator.IsCheckState(CharacterState.Action.State.Jump)){
             return;
         }
         

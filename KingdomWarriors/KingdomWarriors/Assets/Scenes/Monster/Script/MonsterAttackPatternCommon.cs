@@ -55,8 +55,7 @@ public class MonsterAttackPatternCommon : MonoBehaviour
         int monsterHP = characterStatus.HP;
         //이미 몬스터의 체력이 0이면 타격을 무시한다.
         if (state == State.Death) return;
-
-        nvAgent.isStopped = true;
+        nvAgent.enabled = false;
         //몬스터의 체력이 0이 되면
         if (monsterHP <= 0)
         {
@@ -72,10 +71,11 @@ public class MonsterAttackPatternCommon : MonoBehaviour
     {
         print("React Off");
         ////추적을 다시 시작하고 싶다.
+        nvAgent.enabled = true;
         nvAgent.isStopped = false;
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
         //공격범위 안에 플레이어가 있다면
-        if (distToPlayer <= nvAgent.stoppingDistance + 1)
+        if (distToPlayer <= nvAgent.stoppingDistance)
         {
             // //공격상태로 전이하고 싶다.
             setState(State.Attack, "Attack");

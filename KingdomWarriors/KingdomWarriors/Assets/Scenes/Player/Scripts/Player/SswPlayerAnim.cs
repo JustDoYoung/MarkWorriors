@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class SswPlayerAnim : MonoBehaviour
 {
-    private Animator anim;
+    private Animator Anim {get; set;}
+    private CharacterMediator PlayerMediator {get; set;}
 
     // Start is called before the first frame update
     void Start()
     {
-        anim = GetComponentInChildren<Animator>();
+        Anim = GetComponentInChildren<Animator>();
+        PlayerMediator = GetComponentInParent<CharacterMediator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void SetIdle(){
-        anim.SetTrigger("Idle1");
+    private void StopMove(){
+        SetRun(false);
+        SetWalk(false);
+    }
+
+    public void SetStay(){
+        Anim.SetTrigger("Idle1");
     }
 
     public void SetRun(Vector3 velocity){
@@ -27,12 +34,12 @@ public class SswPlayerAnim : MonoBehaviour
     }
 
     public void SetRun(float v, float h){
-        anim.SetFloat("RunV", v);
-        anim.SetFloat("RunH", h);
+        Anim.SetFloat("RunV", v);
+        Anim.SetFloat("RunH", h);
     }
 
     public void SetRun(bool isRun){
-        anim.SetBool("Run", isRun);
+        Anim.SetBool("Run", isRun);
     }
 
     public void SetWalk(Vector3 velocity){
@@ -40,28 +47,38 @@ public class SswPlayerAnim : MonoBehaviour
     }
 
     public void SetWalk(float v, float h){
-        anim.SetFloat("WalkV", v);
-        anim.SetFloat("WalkH", h);
+        Anim.SetFloat("WalkV", v);
+        Anim.SetFloat("WalkH", h);
     }
 
     public void SetWalk(bool isWalk){
-        anim.SetBool("Walk", isWalk);
+        Anim.SetBool("Walk", isWalk);
     }
 
     public void Jump(){
-        anim.SetTrigger("Jump");
+        StopMove();
+        Anim.SetTrigger("Jump");
+    }
+
+    public void Landing(){
+        // 아직 랜딩 없음
+        PlayerMediator.Stay();
+        PlayerMediator.Idle();
     }
 
     public void NoramlAttack(){
-        anim.SetTrigger("Attack1");
+        StopMove();
+        Anim.SetTrigger("Attack1");
     }
 
     public void TempComboAttack(){
-        print("attack2 anim");
-        anim.SetTrigger("Attack2");
+        StopMove();
+        print("attack2 Anim");
+        Anim.SetTrigger("Attack2");
     }
 
     public void HeavyAttack(){
-        anim.SetTrigger("Attack3");
+        StopMove();
+        Anim.SetTrigger("Attack3");
     }
 }

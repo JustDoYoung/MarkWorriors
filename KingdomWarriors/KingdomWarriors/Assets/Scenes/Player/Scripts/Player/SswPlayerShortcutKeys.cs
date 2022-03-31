@@ -18,11 +18,11 @@ public class SswPlayerShortcutKeys : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Alpha1)){
-            drinkHpPotion();
+            DrinkHpPotion();
         }
     }
 
-    private void drinkHpPotion(){
+    private void DrinkHpPotion(){
         playerMediator.RecoveryHp(tempHpPotion);
     }
 }

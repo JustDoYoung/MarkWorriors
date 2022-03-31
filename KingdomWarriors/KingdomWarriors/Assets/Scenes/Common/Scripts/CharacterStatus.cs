@@ -3,22 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public interface CharacterMediator{
-    // 상태 시작 이벤트
-    public void OnIdleStartEvent();
-    public void OnWalkStartEvent();
-    public void OnRunStartEvent();
-    public void OnDashStartEvent();
-    public void OnJumpStartEvent();
-    public void OnAttackStartEvent();
+using MoveState = CharacterState.Move.State;
+using ActionState = CharacterState.Action.State;
 
-    // 상태 종료 이벤트
-    public void OnIdleEndEvent();
-    public void OnWalkEndEvent();
-    public void OnRunEndEvent();
-    public void OnDashEndEvent();
-    public void OnJumpEndEvent();
-    public void OnAttackEndEvent();
+public interface CharacterMediator{
+    // 상태 확인, 체크
+    public bool IsCheckState(MoveState state);
+    public bool IsCheckState(ActionState state);
+    public bool IsAttacking();
+    public MoveState GetMoveState();
+    public ActionState GetActionState();
+
+    // 어빌리티
+    public void ExpIncrease();
+    public void LevelUp();
+
+    // 무브
+    public void Stay();
+    public void Walk();
+    public void Run();
+    public void Dash(Vector3 dir, float dashHoldingTime);
+    public void UpdateMove(Vector3 dir, Vector3 velocity);
+
+    // 액션
+    public void Idle();
+    public void Jump();
+    public void Landing();
+    public void NormalAttack();
+    public void HeavyAttack();
+    public void EquipmentChange();
+    public void Death();
+
+    // 상호작용
+    public void GetItem();
 }
 
 public class CharacterStatus : MonoBehaviour
@@ -41,16 +58,16 @@ public class CharacterStatus : MonoBehaviour
     public int HP{
         get{return hp;}
         private set{
-            //print("체력 세팅 : " + value);
+            print("체력 세팅 : " + value);
             hp = value;
             if(hpSlider != null){hpSlider.value = value;}
             if(IsDeath()){
                 // 임시
-                if(playerMediator == null){
+                if(CharacterMediator == null){
                   //  Death();
                     return;
                 }
-                playerMediator.Death();
+                CharacterMediator.Death();
             }
         }
     }
@@ -67,29 +84,30 @@ public class CharacterStatus : MonoBehaviour
         }
     }
 
-    public enum CharacterState{
-        Idle, Walk, Run, Dash, Jump, NoramlAttack, FinishAttack
-    }
-
-    // 임시로 테스트
-    public bool isNoramlAttackLock = false;
-
-    private CharacterState prevState = CharacterState.Idle;
-    public CharacterState State {get;set;}
-
-    private delegate void StateChangeEvent();
+    public CharacterMoveState MoveState {get;set;} = new CharacterMoveState();
+    public CharacterActionState ActionState {get;set;} = new CharacterActionState();
 
     public GameObject levelUpEffectFactory;
 
-    private SswPlayerMediator playerMediator;
+    private CharacterMediator CharacterMediator {get; set;}
 
     private Slider hpSlider;
     private Slider mpSlider;
 
+    // 임시로 테스트
+    public bool isNoramlAttackLock = false;
+
     // Start is called before the first frame update
     protected void Start()
     {
-        playerMediator = GetComponent<SswPlayerMediator>();
+        CharacterMediator = GetComponent<CharacterMediator>();
+        if(CharacterMediator is CharacterState.Move.Receiver){
+            MoveState.AddReceiver((CharacterState.Move.Receiver)CharacterMediator);
+        }
+        if(CharacterMediator is CharacterState.Move.Receiver){
+            ActionState.AddReceiver((CharacterState.Action.Receiver)CharacterMediator);
+        }
+
         foreach(Slider slider in GetComponentsInChildren<Slider>()){
             switch(slider.name){
                 case "CharacterSliderHP" : hpSlider = slider; break;
@@ -109,7 +127,6 @@ public class CharacterStatus : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        CheckState();
         Billboard();
     }
 
@@ -118,48 +135,20 @@ public class CharacterStatus : MonoBehaviour
         if(mpSlider != null){mpSlider.transform.rotation = Camera.main.transform.rotation;}
     }
 
-    public void CheckState(){
-        if(prevState == State){
-            return;
-        }
-        StateChangeEvent stateChangeEvent = GetStateEndEvent(prevState);;
-        prevState = State;
-        stateChangeEvent += GetStateStartEvent(State);
-        if(stateChangeEvent != null){
-            stateChangeEvent();
-        }
+    public bool IsCheckState(CharacterState.Move.State state){
+        return MoveState.IsCheckState(state);
     }
 
-    private StateChangeEvent GetStateStartEvent(CharacterState state){
-        if(playerMediator == null){
-            return null;
-        }
-        switch (state){
-            case CharacterState.Idle : return playerMediator.OnIdleStartEvent;
-            case CharacterState.Walk : return playerMediator.OnWalkStartEvent;
-            case CharacterState.Run : return playerMediator.OnRunStartEvent;
-            case CharacterState.Dash : return playerMediator.OnDashStartEvent;
-            case CharacterState.Jump : return playerMediator.OnJumpStartEvent;
-            case CharacterState.NoramlAttack : 
-            case CharacterState.FinishAttack : return playerMediator.OnAttackStartEvent;
-            default: return null;
-        }
+    public bool IsCheckState(CharacterState.Action.State state){
+        return ActionState.IsCheckState(state);
     }
 
-    private StateChangeEvent GetStateEndEvent(CharacterState state){
-        if(playerMediator == null){
-            return null;
-        }
-        switch (state){
-            case CharacterState.Idle : return playerMediator.OnIdleEndEvent;
-            case CharacterState.Walk : return playerMediator.OnWalkEndEvent;
-            case CharacterState.Run : return playerMediator.OnRunEndEvent;
-            case CharacterState.Dash : return playerMediator.OnDashEndEvent;
-            case CharacterState.Jump : return playerMediator.OnJumpEndEvent;
-            case CharacterState.NoramlAttack : 
-            case CharacterState.FinishAttack : return playerMediator.OnAttackEndEvent;
-            default: return null;
-        }
+    public void SetState(CharacterState.Move.State state){
+        MoveState.SetState(state);
+    }
+
+    public void SetState(CharacterState.Action.State state){
+        ActionState.SetState(state);
     }
 
     public void SetDamage(int damage){
@@ -167,11 +156,6 @@ public class CharacterStatus : MonoBehaviour
             return;
         }
         HP -= damage;
-
-        // if(HP <= 0){
-        //     //Death();
-        //     //죽음 애니메이션 처리 때문에 MonsterRe.cs에서 애니메이션 이벤트 함수로 우선 대신함.(3월 26일 - 김도영)
-        // }
     }
 
     public void SetRecoveryHP(int amount){
@@ -217,8 +201,6 @@ public class CharacterStatus : MonoBehaviour
             LevelUp();
         }
     }
-
-
 
     private void OnDestroy() {
   

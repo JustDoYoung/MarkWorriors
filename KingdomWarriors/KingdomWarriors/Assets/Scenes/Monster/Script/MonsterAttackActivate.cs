@@ -33,6 +33,5 @@ public class MonsterAttackActivate : MonoBehaviour
             status.SetDamage(damage);
         }
         print("Player Attacked");
-
     }
 }

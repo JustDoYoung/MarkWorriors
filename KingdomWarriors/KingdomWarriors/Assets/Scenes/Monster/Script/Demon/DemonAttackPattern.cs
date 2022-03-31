@@ -47,14 +47,27 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
     }
     IEnumerator UpdateRush()
     {
-        setState(State.Rush, "Rush");
+        float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
         isAttack = true;
-        nvAgent.speed = 15;
-        nvAgent.acceleration = 20;
+        state = State.Rush;
+        anim.SetTrigger("Rush");
         yield return new WaitForSeconds(1f);
-        anim.Rebind();
-        anim.SetTrigger("Idle");
-        yield return new WaitForSeconds(2f);
+        //돌진 직전에 React가 실행되면 서서 가속도 이동을 한다.
+        //돌진할 때는 무적상태로 하자
+        //어떻게
+        nvAgent.enabled = false;
+        rb.AddForce(transform.forward * 20, ForceMode.Impulse);
+        if (distToPlayer > nvAgent.stoppingDistance)
+        {
+            yield return new WaitForSeconds(0.7f);
+            rb.velocity = Vector3.zero;
+            anim.Rebind();
+            anim.SetTrigger("Idle");
+        }
+        //무적해제
+        rb.velocity = Vector3.zero;
+        // yield return new WaitForSeconds(2f);
+        nvAgent.enabled = true;
         setState(State.Chase, "Chase");
         isAttack = false;
     }
@@ -70,21 +83,22 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
 
         // setState(State.Chase, "Chase");
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
+
         //target 쪽으로 추적을 하고 싶다.
         nvAgent.destination = target.transform.position;
+
+
 
         //몬스터의 정면에 플레이어가 있다면 돌진을 하고 싶다.
         RaycastHit[] attackTarget = Physics.SphereCastAll(transform.position, 1f, transform.forward, traceRadius - 5, 1 << LayerMask.NameToLayer("Player"));
 
         if (distToPlayer > nvAgent.stoppingDistance && attackTarget.Length > 0 && isAttack == false)
         {
-            //print("전이" + isAttack);
-            //공격상태로 전이하고 싶다.
-            //돌진 애니메이션을 적용하고 싶다.
-            StopCoroutine(UpdateRush());
+            //돌진하고 싶다.
+            //StopCoroutine(UpdateRush());
             StartCoroutine(UpdateRush());
         }
-        else if (distToPlayer < nvAgent.stoppingDistance + 1)
+        else if (distToPlayer <= nvAgent.stoppingDistance)
         {
             setState(State.Attack, "Attack");
         }

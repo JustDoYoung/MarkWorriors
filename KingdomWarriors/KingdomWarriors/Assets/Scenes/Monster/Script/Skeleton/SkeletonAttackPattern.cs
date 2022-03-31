@@ -64,7 +64,7 @@ public class SkeletonAttackPattern : MonsterAttackPatternCommon
             //상태를 Patrol로 바꾸고 싶다.
             setState(State.Patrol, "Patrol");
         }
-        else if (distToPlayer < nvAgent.stoppingDistance + 1)
+        else if (distToPlayer < nvAgent.stoppingDistance)
         {
             print("전이" + isAttack);
             //공격상태로 전이하고 싶다.

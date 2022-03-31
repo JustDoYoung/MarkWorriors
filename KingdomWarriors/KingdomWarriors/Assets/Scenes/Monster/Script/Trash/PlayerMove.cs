@@ -2,81 +2,83 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
-{
-    CharacterController cc;
-    public float speed = 5;
-    float yVelocity;
-    public float gravity = -9.8f;
-    public int hp = 100;
-    Color playerColor;
-
-    bool isDamage;
-
-    SswCharacterStatus playerStatus;
-
-    MeshRenderer meshes;
-    private void Awake()
+namespace Trash{
+    public class PlayerMove : MonoBehaviour
     {
-        Application.targetFrameRate = 40;
-    }
-    void Start()
-    {
-        cc = this.gameObject.GetComponent<CharacterController>();
-        meshes = this.gameObject.GetComponent<MeshRenderer>();
-        playerStatus = this.gameObject.GetComponent<SswCharacterStatus>();
-        playerColor = meshes.material.color;
-    }
+        CharacterController cc;
+        public float speed = 5;
+        float yVelocity;
+        public float gravity = -9.8f;
+        public int hp = 100;
+        Color playerColor;
 
-    // Update is called once per frame
-    void Update()
-    {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        Vector3 dir = new Vector3(h, 0, v);
-        dir = Camera.main.transform.TransformDirection(dir).normalized;
-        dir.y = 0;
-        Vector3 velocity = dir * speed;
+        bool isDamage;
 
+        SswCharacterStatus playerStatus;
 
-        if (cc.isGrounded)
+        MeshRenderer meshes;
+        private void Awake()
         {
-
+            Application.targetFrameRate = 40;
         }
-        else
+        void Start()
         {
-            yVelocity += gravity * Time.deltaTime;
+            cc = this.gameObject.GetComponent<CharacterController>();
+            meshes = this.gameObject.GetComponent<MeshRenderer>();
+            playerStatus = this.gameObject.GetComponent<SswCharacterStatus>();
+            playerColor = meshes.material.color;
         }
-        velocity.y = yVelocity;
-        //transform.LookAt(transform.position + dir);
-        if (dir != Vector3.zero)
-            transform.forward = dir;
 
-        cc.Move(velocity * Time.deltaTime);
-    }
-
-    IEnumerator OnDamage()
-    {
-        isDamage = true;
-
-            meshes.material.color = Color.red;
-        
-        yield return new WaitForSeconds(0.5f);
-        isDamage = false;
-
-            meshes.material.color = playerColor;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "MonsterAttack")
+        // Update is called once per frame
+        void Update()
         {
-            if (!isDamage)
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+            Vector3 dir = new Vector3(h, 0, v);
+            dir = Camera.main.transform.TransformDirection(dir).normalized;
+            dir.y = 0;
+            Vector3 velocity = dir * speed;
+
+
+            if (cc.isGrounded)
             {
-                MonsterAttackActivate monsterAttack = other.gameObject.GetComponent<MonsterAttackActivate>();
-                hp -= monsterAttack.damage;
-                StartCoroutine(OnDamage());
 
-                playerStatus.SetDamage(1);
+            }
+            else
+            {
+                yVelocity += gravity * Time.deltaTime;
+            }
+            velocity.y = yVelocity;
+            //transform.LookAt(transform.position + dir);
+            if (dir != Vector3.zero)
+                transform.forward = dir;
+
+            cc.Move(velocity * Time.deltaTime);
+        }
+
+        IEnumerator OnDamage()
+        {
+            isDamage = true;
+
+                meshes.material.color = Color.red;
+            
+            yield return new WaitForSeconds(0.5f);
+            isDamage = false;
+
+                meshes.material.color = playerColor;
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.tag == "MonsterAttack")
+            {
+                if (!isDamage)
+                {
+                    MonsterAttackActivate monsterAttack = other.gameObject.GetComponent<MonsterAttackActivate>();
+                    hp -= monsterAttack.damage;
+                    StartCoroutine(OnDamage());
+
+                    playerStatus.SetDamage(1);
+                }
             }
         }
     }

@@ -6,7 +6,6 @@ public class SswPlayerCameraMove : MonoBehaviour
 {
     
     private float xRotate = 0.0f;
-
     public float turnSpeed = 5f;
 
     // Start is called before the first frame update
