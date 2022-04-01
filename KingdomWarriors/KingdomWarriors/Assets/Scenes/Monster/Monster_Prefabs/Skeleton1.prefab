@@ -101,8 +101,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.66829646, y: 2.0288918, z: 0.27810264}
-  m_Center: {x: 0.0089300275, y: 0.36950436, z: 0.007984817}
+  m_Size: {x: 0.66829646, y: 1.9210861, z: 0.27810264}
+  m_Center: {x: 0.0089300275, y: 0.4234072, z: 0.007984817}
 --- !u!195 &5209324782276780656
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1359abe8a00c03e439b668e7e49f80ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   traceZone: {fileID: 5209324783198079333}
   anim: {fileID: 5653302489725072120}
 --- !u!114 &5473790315454044959
@@ -172,8 +173,8 @@ MonoBehaviour:
   hp: 0
   maxMP: 10
   mp: 0
-  isNoramlAttackLock: 0
   levelUpEffectFactory: {fileID: 0}
+  isNoramlAttackLock: 0
 --- !u!1 &5209324782414319789
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +690,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  isAttack: 1
 --- !u!1 &5209324783895463081
 GameObject:
   m_ObjectHideFlags: 0

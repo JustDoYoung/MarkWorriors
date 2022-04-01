@@ -1,11 +1,14 @@
+using System.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
-public class MonsterAttackPatternCommon : MonoBehaviour
+public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
 {
-    protected enum State
+    //
+    public enum State
     {
         Idle,
         Patrol,
@@ -15,11 +18,11 @@ public class MonsterAttackPatternCommon : MonoBehaviour
         React,
         Death
     }
-    protected State state;
+    public State state;
 
     protected NavMeshAgent nvAgent;
     protected GameObject target;
-    protected MonsterAttackActivate attackArea;
+    // protected MonsterAttackActivate attackArea;
     public GameObject traceZone; //몬스터의 추적범위 공간(sphere오브젝트)
     public Animator anim;
 
@@ -29,6 +32,7 @@ public class MonsterAttackPatternCommon : MonoBehaviour
     protected bool isPatrol;
     protected bool isChase;
     protected bool isAttack;
+
     protected void setState(State next, string animationName)
     {
         if (state != next)
@@ -39,19 +43,13 @@ public class MonsterAttackPatternCommon : MonoBehaviour
             //anim.CrossFade(animationName, 0.1f);
         }
     }
-    internal void OnMonsterAttackHit()
-    {
-        //몬스터가 때리는 순간 공격 콜라이더를 활성화시키고 싶다.
-        attackArea = GetComponentInChildren<MonsterAttackActivate>();
-        if (attackArea.isAttack)
-        {
-            attackArea.MonsterAttack();
-        }
-    }
 
-    public void GetDamageFromPlayer()
+    public void OnAttack(int damage)
     {
+        print(state);
+        if (state == State.Rush) return;
         CharacterStatus characterStatus = gameObject.GetComponent<CharacterStatus>();
+        characterStatus.SetDamage(damage);
         int monsterHP = characterStatus.HP;
         //이미 몬스터의 체력이 0이면 타격을 무시한다.
         if (state == State.Death) return;

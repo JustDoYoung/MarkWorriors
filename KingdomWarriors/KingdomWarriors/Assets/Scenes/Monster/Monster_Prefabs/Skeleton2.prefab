@@ -176,8 +176,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.66829646, y: 2.0288918, z: 0.27810264}
-  m_Center: {x: 0.0089300275, y: 0.36950436, z: 0.007984817}
+  m_Size: {x: 0.66829646, y: 1.8227439, z: 0.27810264}
+  m_Center: {x: 0.0089300275, y: 0.4725783, z: 0.007984817}
 --- !u!195 &5312474703578862579
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1359abe8a00c03e439b668e7e49f80ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   traceZone: {fileID: 5312474704769399014}
   anim: {fileID: 1637834763706254443}
 --- !u!114 &7060543942167986383
@@ -247,8 +248,8 @@ MonoBehaviour:
   hp: 0
   maxMP: 10
   mp: 0
-  isNoramlAttackLock: 0
   levelUpEffectFactory: {fileID: 0}
+  isNoramlAttackLock: 0
 --- !u!1 &5312474703986680110
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,7 +701,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  isAttack: 1
 --- !u!1 &5312474705072496103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4993600282217460, guid: 1e1312b383a084a42a9930f135c39ff7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.53
+      value: -0.627
       objectReference: {fileID: 0}
     - target: {fileID: 4993600282217460, guid: 1e1312b383a084a42a9930f135c39ff7, type: 3}
       propertyPath: m_LocalPosition.z

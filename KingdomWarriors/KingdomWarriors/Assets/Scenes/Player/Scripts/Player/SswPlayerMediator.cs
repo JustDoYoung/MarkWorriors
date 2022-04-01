@@ -6,33 +6,38 @@ using UnityEngine;
 using MoveState = CharacterState.Move.State;
 using ActionState = CharacterState.Action.State;
 
-public class Logger{
-    public enum Tag{
+public class Logger
+{
+    public enum Tag
+    {
         State
     }
 
-    public static void Log(Tag tag, string msg){
+    public static void Log(Tag tag, string msg)
+    {
         Logger.Log(tag.ToString(), msg);
     }
-    public static void Log(string tag, string msg){
+    public static void Log(string tag, string msg)
+    {
         Debug.Log("[" + tag + "], " + msg);
     }
 }
 
 public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterState.Move.Receiver, CharacterState.Action.Receiver, OnAttackEvent
 {
-    private CharacterStatus PlayerStatus {get; set;}
+    private CharacterStatus PlayerStatus { get; set; }
 
-    private SswPlayerCameraMove PlayerCameraMove {get; set;}
-    private SswPlayerInputMove PlayerInputMove {get; set;}
-    private SswPlayerShortcutKeys PlayerShortcutKeys {get; set;}
-    private SswPlayerEffect PlayerEffect {get; set;}
-    private SswPlayerAnim PlayerAnim {get; set;}
+    private SswPlayerCameraMove PlayerCameraMove { get; set; }
+    private SswPlayerInputMove PlayerInputMove { get; set; }
+    private SswPlayerShortcutKeys PlayerShortcutKeys { get; set; }
+    private SswPlayerEffect PlayerEffect { get; set; }
+    private SswPlayerAnim PlayerAnim { get; set; }
 
     private WeaponWearableHand rightWeaponHand;
-    
-    private void Start() {
-        PlayerStatus = GetComponent<CharacterStatus>(); 
+
+    private void Start()
+    {
+        PlayerStatus = GetComponent<CharacterStatus>();
         PlayerCameraMove = GetComponent<SswPlayerCameraMove>();
         PlayerInputMove = GetComponent<SswPlayerInputMove>();
         PlayerEffect = GetComponent<SswPlayerEffect>();
@@ -41,103 +46,126 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
         rightWeaponHand = GetComponentInChildren<WeaponWearableHand>();
     }
 
-    private void SetState(MoveState state){
+    private void SetState(MoveState state)
+    {
         PlayerStatus.SetState(state);
     }
-    private void SetState(ActionState state){
+    private void SetState(ActionState state)
+    {
         PlayerStatus.SetState(state);
     }
 
-    public bool IsCheckState(MoveState state){
+    public bool IsCheckState(MoveState state)
+    {
         return PlayerStatus.IsCheckState(state);
-    }    
-    public bool IsCheckState(ActionState state){
+    }
+    public bool IsCheckState(ActionState state)
+    {
         return PlayerStatus.IsCheckState(state);
     }
 
-    public bool IsAttacking(){
-        return  IsCheckState(ActionState.NoramlAttack) ||
+    public bool IsAttacking()
+    {
+        return IsCheckState(ActionState.NoramlAttack) ||
                 IsCheckState(ActionState.HeavyAttack) ||
                 IsCheckState(ActionState.FinishAttack);
     }
 
-    public MoveState GetMoveState(){
+    public MoveState GetMoveState()
+    {
         return PlayerStatus.MoveState.CurrentState;
     }
 
-    public ActionState GetActionState(){
+    public ActionState GetActionState()
+    {
         return PlayerStatus.ActionState.CurrentState;
     }
 
     public void UpdateMove(Vector3 dir, Vector3 velocity)
     {
-        switch(GetMoveState()){
-            case MoveState.Run : PlayerAnim.SetRun(dir); break;
-            case MoveState.Walk : PlayerAnim.SetWalk(dir); break;
+        switch (GetMoveState())
+        {
+            case MoveState.Run: PlayerAnim.SetRun(dir); break;
+            case MoveState.Walk: PlayerAnim.SetWalk(dir); break;
         }
     }
 
-    public void Idle(){
+    public void Idle()
+    {
         SetState(ActionState.Idle);
     }
 
-    public void Stay(){
+    public void Stay()
+    {
         SetState(MoveState.Stay);
         StartCoroutine(CRStayAnim());
     }
 
-    private IEnumerator CRStayAnim(){
+    private IEnumerator CRStayAnim()
+    {
         yield return null;
-        if(IsAttacking()){
+        if (IsAttacking())
+        {
             yield break;
         }
-        if(IsCheckState(MoveState.Stay)){
+        if (IsCheckState(MoveState.Stay))
+        {
             PlayerAnim.SetStay();
         }
     }
 
-    public void Walk(){
-        if(IsAttacking()){
+    public void Walk()
+    {
+        if (IsAttacking())
+        {
             return;
         }
 
         SetState(MoveState.Walk);
         PlayerInputMove.SetWalk();
 
-        if(IsCheckState(ActionState.Jump)){
+        if (IsCheckState(ActionState.Jump))
+        {
             return;
         }
         PlayerAnim.SetWalk(true);
     }
 
-    public void Run(){
-        if(IsAttacking()){
+    public void Run()
+    {
+        if (IsAttacking())
+        {
             return;
         }
 
         SetState(MoveState.Run);
         PlayerInputMove.SetRun();
 
-        if(IsCheckState(ActionState.Jump)){
+        if (IsCheckState(ActionState.Jump))
+        {
             return;
         }
         PlayerAnim.SetRun(true);
     }
 
-    public void Jump(){
+    public void Jump()
+    {
         SetState(ActionState.Jump);
         PlayerAnim.Jump();
         PlayerInputMove.SetJump();
     }
 
-    public void Landing(){
+    public void Landing()
+    {
         SetState(ActionState.Landing);
         PlayerInputMove.SetLanding();
         PlayerAnim.Landing();
     }
 
-    public void Dash(Vector3 dir, float dashHoldingTime){
-        if(IsAttacking()){
+    public void Dash(Vector3 dir, float dashHoldingTime)
+    {
+        if (IsAttacking())
+        {
             return;
         }
 
@@ -145,23 +173,26 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
         StartCoroutine(CRDashEnd(dashHoldingTime));
     }
 
-    private IEnumerator CRDashEnd(float dashHoldingTime){
+    private IEnumerator CRDashEnd(float dashHoldingTime)
+    {
         yield return new WaitForSeconds(dashHoldingTime);
         Stay();
     }
 
-    public void RecoveryHp(int amount){
+    public void RecoveryHp(int amount)
+    {
         Logger.Log(Logger.Tag.State, "회복 전 체력 : " + PlayerStatus.HP);
-        
-        int recoveryHp = (PlayerStatus.MaxHP <= (PlayerStatus.HP+amount)) ? PlayerStatus.MaxHP : PlayerStatus.HP+amount;
+
+        int recoveryHp = (PlayerStatus.MaxHP <= (PlayerStatus.HP + amount)) ? PlayerStatus.MaxHP : PlayerStatus.HP + amount;
 
         PlayerStatus.SetRecoveryHP(amount);
         PlayerEffect.RecoveryHpEffect();
-    
+
         Logger.Log(Logger.Tag.State, "회복 후 체력 : " + PlayerStatus.HP);
     }
 
-    public void Death(){
+    public void Death()
+    {
 
     }
 
@@ -169,11 +200,13 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
      * 상태 시작 이벤트
      */
 
-    public void OnStayStartEvent(){
+    public void OnStayStartEvent()
+    {
         Logger.Log(Logger.Tag.State, "stay start");
     }
 
-    public void OnIdleStartEvent(){
+    public void OnIdleStartEvent()
+    {
         Logger.Log(Logger.Tag.State, "idle start");
     }
 
@@ -197,7 +230,7 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
         Logger.Log(Logger.Tag.State, "jump start");
     }
 
-     public void OnLandingStartEvent()
+    public void OnLandingStartEvent()
     {
         Logger.Log(Logger.Tag.State, "landing start");
     }
@@ -214,11 +247,13 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
      * 상태 종료 이벤트
      */
 
-    public void OnStayEndEvent(){
+    public void OnStayEndEvent()
+    {
         Logger.Log(Logger.Tag.State, "stay end");
     }
 
-    public void OnIdleEndEvent(){
+    public void OnIdleEndEvent()
+    {
         Logger.Log(Logger.Tag.State, "idle end");
     }
 
@@ -255,14 +290,18 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
         rightWeaponHand.Attack(false);
     }
 
-    public void OnNormalAttack(){
-        if(PlayerStatus.isNoramlAttackLock){
+    public void OnNormalAttack()
+    {
+        if (PlayerStatus.isNoramlAttackLock)
+        {
             return;
         }
-        if(IsCheckState(ActionState.FinishAttack)){
+        if (IsCheckState(ActionState.FinishAttack))
+        {
             return;
         }
-        if(IsCheckState(ActionState.NoramlAttack)){
+        if (IsCheckState(ActionState.NoramlAttack))
+        {
             PlayerAnim.TempComboAttack();
             PlayerStatus.isNoramlAttackLock = true;
             rightWeaponHand.Attack(true);
@@ -275,15 +314,18 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
     }
 
 
-    private IEnumerator CRNormalAttack(){
+    private IEnumerator CRNormalAttack()
+    {
         yield return null;
 
-        
+
 
     }
 
-    public void OnHeavyAttack(){
-        if(IsCheckState(ActionState.FinishAttack)){
+    public void OnHeavyAttack()
+    {
+        if (IsCheckState(ActionState.FinishAttack))
+        {
             return;
         }
         SetState(ActionState.FinishAttack);
@@ -291,8 +333,10 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
         PlayerStatus.isNoramlAttackLock = true;
     }
 
-    public void OnAttack1MotionFinishedEvent(){
-        if(PlayerStatus.IsCheckState(ActionState.NoramlAttack) == false){
+    public void OnAttack1MotionFinishedEvent()
+    {
+        if (PlayerStatus.IsCheckState(ActionState.NoramlAttack) == false)
+        {
             return;
         }
 
@@ -302,23 +346,28 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
     }
 
     // 임시
-    public void OnAttack1FinishedEvent(){
-        if(PlayerStatus.IsCheckState(ActionState.NoramlAttack) == false){
+    public void OnAttack1FinishedEvent()
+    {
+        if (PlayerStatus.IsCheckState(ActionState.NoramlAttack) == false)
+        {
             return;
         }
         print("111111111111");
         Idle();
     }
-    public void OnAttack2FinishedEvent(){
+    public void OnAttack2FinishedEvent()
+    {
         PlayerStatus.isNoramlAttackLock = false;
         print("222222222222");
         Idle();
     }
-    public void OnAttack3FinishedEvent(){
-        if(PlayerStatus.IsCheckState(ActionState.FinishAttack) == false){
+    public void OnAttack3FinishedEvent()
+    {
+        if (PlayerStatus.IsCheckState(ActionState.FinishAttack) == false)
+        {
             return;
         }
-        
+
         PlayerStatus.isNoramlAttackLock = false;
         print("333333333333");
         Idle();
@@ -326,21 +375,12 @@ public class SswPlayerMediator : MonoBehaviour, CharacterMediator, CharacterStat
 
     public void OnAttack(GameObject target, WeaponStatus weaponStatus)
     {
-        CharacterStatus targetStatus = target.GetComponent<CharacterStatus>();
-        if(targetStatus == null){
+        Interaction.Attack targetAttack = target.GetComponent<Interaction.Attack>();
+        if (targetAttack == null)
+        {
             return;
         }
-        targetStatus.SetDamage(weaponStatus.power);
-
-        Logger.Log("ttt2", targetStatus.ToString());
-
-        SkeletonAttackPattern skeleton = target.GetComponent<SkeletonAttackPattern>();
-        DemonAttackPattern demon = target.GetComponent<DemonAttackPattern>();
-        UndeadKnightAttackPattern undeadKnight = target.GetComponent<UndeadKnightAttackPattern>();
-
-        if(skeleton != null) skeleton.GetDamageFromPlayer();
-        if(demon != null) demon.GetDamageFromPlayer();
-        if(undeadKnight != null) undeadKnight.GetDamageFromPlayer();
+        targetAttack.OnAttack(weaponStatus.power);
     }
 
 

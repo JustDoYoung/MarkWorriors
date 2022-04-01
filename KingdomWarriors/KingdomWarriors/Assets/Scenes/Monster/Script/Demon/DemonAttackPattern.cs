@@ -13,7 +13,7 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
         nvAgent = GetComponent<NavMeshAgent>();
         traceRadius = traceZone.transform.localScale.x * 0.5f;
         setState(State.Idle, "Idle");
-        patrolIndex = UnityEngine.Random.Range(0, PatrolLocation.instance.patrolPoints.Length);
+        //        patrolIndex = UnityEngine.Random.Range(0, PatrolLocation.instance.patrolPoints.Length);
         anim = GetComponentInChildren<Animator>();
     }
 
@@ -30,6 +30,7 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
             case State.Attack:
                 UpdateAttack();
                 break;
+
         }
     }
     private void UpdateAttack()
@@ -44,32 +45,36 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
         Vector3 monsterLookForward = target.transform.position;
         monsterLookForward.y = transform.position.y;
         transform.LookAt(monsterLookForward);
+        Vector3 dir = transform.position - target.transform.position;
+
+        // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 2);
     }
-    IEnumerator UpdateRush()
+    IEnumerator IERush()
     {
+
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
         isAttack = true;
         state = State.Rush;
         anim.SetTrigger("Rush");
         yield return new WaitForSeconds(1f);
-        //돌진 직전에 React가 실행되면 서서 가속도 이동을 한다.
-        //돌진할 때는 무적상태로 하자
-        //어떻게
         nvAgent.enabled = false;
-        rb.AddForce(transform.forward * 20, ForceMode.Impulse);
+        rb.isKinematic = false;
+        rb.AddForce(transform.forward * 30, ForceMode.Impulse);
+        yield return new WaitForSeconds(0.7f);
+        rb.isKinematic = true;
+        rb.velocity = Vector3.zero;
         if (distToPlayer > nvAgent.stoppingDistance)
         {
-            yield return new WaitForSeconds(0.7f);
-            rb.velocity = Vector3.zero;
-            anim.Rebind();
-            anim.SetTrigger("Idle");
+            print("Idle");
+            nvAgent.enabled = true;
+            isAttack = false;
+            setState(State.Idle, "Idle");
+            yield break;
         }
-        //무적해제
-        rb.velocity = Vector3.zero;
-        // yield return new WaitForSeconds(2f);
+        // rb.isKinematic = true;
         nvAgent.enabled = true;
-        setState(State.Chase, "Chase");
         isAttack = false;
+        setState(State.Chase, "Chase");
     }
 
     private void UpdateChase()
@@ -90,16 +95,16 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
 
 
         //몬스터의 정면에 플레이어가 있다면 돌진을 하고 싶다.
-        RaycastHit[] attackTarget = Physics.SphereCastAll(transform.position, 1f, transform.forward, traceRadius - 5, 1 << LayerMask.NameToLayer("Player"));
+        RaycastHit[] attackTarget = Physics.SphereCastAll(transform.position, 3f, transform.forward, traceRadius - 5, 1 << LayerMask.NameToLayer("Player"));
 
-        if (distToPlayer > nvAgent.stoppingDistance && attackTarget.Length > 0 && isAttack == false)
+        if (distToPlayer >= traceRadius - 5 && attackTarget.Length > 0 && isAttack == false)
         {
             //돌진하고 싶다.
-            //StopCoroutine(UpdateRush());
-            StartCoroutine(UpdateRush());
+            StartCoroutine(IERush());
         }
         else if (distToPlayer <= nvAgent.stoppingDistance)
         {
+            StopCoroutine(IERush());
             setState(State.Attack, "Attack");
         }
 
@@ -108,9 +113,8 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
 
     private void UpdateIdle()
     {
-        //print("Idle");
+
         nvAgent.isStopped = true;
-        setState(State.Idle, "Idle");
 
         int layerMask = 1 << LayerMask.NameToLayer("Player"); //Player의 이름을 가진 Layer 인덱스
         //추적범위 traceZone 안에 Player가 있는지 계속 탐색하고 싶다.

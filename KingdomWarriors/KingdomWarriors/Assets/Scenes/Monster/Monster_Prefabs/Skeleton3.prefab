@@ -304,7 +304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  isAttack: 1
 --- !u!1 &4975628018460555083
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,8 +616,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.66829646, y: 2.0288918, z: 0.27810264}
-  m_Center: {x: 0.0089300275, y: 0.36950436, z: 0.007984817}
+  m_Size: {x: 0.66829646, y: 1.7646642, z: 0.27810264}
+  m_Center: {x: 0.0089300275, y: 0.50161815, z: 0.007984817}
 --- !u!195 &4975628019115456863
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -669,6 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1359abe8a00c03e439b668e7e49f80ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   traceZone: {fileID: 4975628018158228042}
   anim: {fileID: 3598660468410115212}
 --- !u!114 &-1040892652966670559
@@ -688,8 +688,8 @@ MonoBehaviour:
   hp: 0
   maxMP: 10
   mp: 0
-  isNoramlAttackLock: 0
   levelUpEffectFactory: {fileID: 0}
+  isNoramlAttackLock: 0
 --- !u!1 &4975628019513527170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4808938581718642, guid: 3e4cf0221a0e8db41bcb50be99ebe457, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.626
       objectReference: {fileID: 0}
     - target: {fileID: 4808938581718642, guid: 3e4cf0221a0e8db41bcb50be99ebe457, type: 3}
       propertyPath: m_LocalPosition.z

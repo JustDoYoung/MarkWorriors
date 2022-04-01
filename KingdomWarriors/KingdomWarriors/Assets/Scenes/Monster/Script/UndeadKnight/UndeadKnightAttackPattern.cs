@@ -16,7 +16,7 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
 
     void Update()
     {
-        if(GameObject.Find("Player") == null)
+        if (GameObject.Find("Player") == null)
         {
             setState(State.Idle, "Idle");
             print("player null");
@@ -53,18 +53,9 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
         transform.LookAt(monsterLookForward);
 
         //Attack 범위 밖으로 target이 나가면
-        if (distToPlayer > nvAgent.stoppingDistance+1)
+        if (distToPlayer > nvAgent.stoppingDistance)
         {
             setState(State.Chase, "Chase");
-        }
-    }
-    internal void OnMonsterAttackHit()
-    {
-        //몬스터가 때리는 순간 공격 콜라이더를 활성화시키고 싶다.
-        attackArea = GetComponentInChildren<MonsterAttackActivate>();
-        if (attackArea.isAttack)
-        {
-            attackArea.MonsterAttack();
         }
     }
 
@@ -73,13 +64,13 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
         //추적을 다시 시작하고 싶다.
         nvAgent.isStopped = false;
 
-        setState(State.Chase, "Chase");
+        //setState(State.Chase, "Chase");
 
         //target 쪽으로 추적을 하고 싶다.
         nvAgent.destination = target.transform.position;
 
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
-        if (distToPlayer < nvAgent.stoppingDistance+1)
+        if (distToPlayer < nvAgent.stoppingDistance)
         {
             //공격상태로 전이하고 싶다.
             // state = State.Attack;
