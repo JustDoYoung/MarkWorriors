@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/SampleScene.unity
+- path: Assets/Hovl Studio/Sword slash VFX/Demo scene/Sword slash demo.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
