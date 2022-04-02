@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class DemonAttackPattern : MonsterAttackPatternCommon
 {
+    public ParticleSystem dust;
     Rigidbody rb;
     void Start()
     {
@@ -51,7 +52,7 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
     }
     IEnumerator IERush()
     {
-
+        dust.Play();
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
         isAttack = true;
         state = State.Rush;
@@ -61,6 +62,7 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
         rb.isKinematic = false;
         rb.AddForce(transform.forward * 30, ForceMode.Impulse);
         yield return new WaitForSeconds(0.7f);
+        dust.Stop();
         rb.isKinematic = true;
         rb.velocity = Vector3.zero;
         if (distToPlayer > nvAgent.stoppingDistance)
@@ -107,10 +109,7 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
             StopCoroutine(IERush());
             setState(State.Attack, "Attack");
         }
-
-
     }
-
     private void UpdateIdle()
     {
 

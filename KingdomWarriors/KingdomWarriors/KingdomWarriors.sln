@@ -5,9 +5,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{26ead635-1718-3914-6d59-053f837a7133}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFXRDemo", "CFXRDemo.csproj", "{2c3ea147-151c-f232-5233-56bb3184ec34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFXRRuntime", "CFXRRuntime.csproj", "{b67d8cb5-2aaf-68ab-2e79-9b629c41a2f4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{946c5f17-6577-fc8f-76d2-8dfb6d3732c1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{cefb6704-ac0c-6723-c947-8aa216991ee3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFXREditor", "CFXREditor.csproj", "{f9937534-95c4-d8b1-9c54-eb78c78f9f38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFXRDemoEditor", "CFXRDemoEditor.csproj", "{4a0a454c-5613-b308-2715-23e730472fb7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,10 +26,18 @@ Global
 		{08119275-4860-e30d-b547-6bab9d061035}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26ead635-1718-3914-6d59-053f837a7133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26ead635-1718-3914-6d59-053f837a7133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2c3ea147-151c-f232-5233-56bb3184ec34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2c3ea147-151c-f232-5233-56bb3184ec34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{b67d8cb5-2aaf-68ab-2e79-9b629c41a2f4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{b67d8cb5-2aaf-68ab-2e79-9b629c41a2f4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{946c5f17-6577-fc8f-76d2-8dfb6d3732c1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{946c5f17-6577-fc8f-76d2-8dfb6d3732c1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{cefb6704-ac0c-6723-c947-8aa216991ee3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{cefb6704-ac0c-6723-c947-8aa216991ee3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{f9937534-95c4-d8b1-9c54-eb78c78f9f38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{f9937534-95c4-d8b1-9c54-eb78c78f9f38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4a0a454c-5613-b308-2715-23e730472fb7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4a0a454c-5613-b308-2715-23e730472fb7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

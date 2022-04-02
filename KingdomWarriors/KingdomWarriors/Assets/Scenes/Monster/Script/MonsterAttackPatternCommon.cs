@@ -32,7 +32,7 @@ public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
     protected bool isPatrol;
     protected bool isChase;
     protected bool isAttack;
-
+    public GameObject hitVFX;
     protected void setState(State next, string animationName)
     {
         if (state != next)
@@ -62,11 +62,13 @@ public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
         else
         {
             setState(State.React, "React");
+            hitVFX.SetActive(true);
         }
     }
 
     internal void OnMonsterReactAnimFinished()
     {
+        hitVFX.SetActive(false);
         print("React Off");
         ////추적을 다시 시작하고 싶다.
         nvAgent.enabled = true;
