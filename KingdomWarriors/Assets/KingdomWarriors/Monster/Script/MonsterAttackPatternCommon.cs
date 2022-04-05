@@ -46,10 +46,11 @@ public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
 
     public void OnAttackHit(int damage)
     {
-        print(hitVFX);
+
         hitVFX.SetActive(true);
-        //hitVFX.GetComponent<ParticleSystem>().Play();
+
         if (state == State.Rush) return;
+
         CharacterStatus characterStatus = gameObject.GetComponent<CharacterStatus>();
         characterStatus.SetDamage(damage);
         int monsterHP = characterStatus.HP;

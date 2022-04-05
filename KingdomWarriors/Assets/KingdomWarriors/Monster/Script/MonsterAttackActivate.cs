@@ -40,6 +40,7 @@ public class MonsterAttackActivate : MonoBehaviour
 
     internal void MonsterAttackActivation()
     {
+        StopCoroutine(RushAttack());
         StartCoroutine(RushAttack());
     }
 }

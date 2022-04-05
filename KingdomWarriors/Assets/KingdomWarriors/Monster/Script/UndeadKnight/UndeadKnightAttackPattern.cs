@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,12 @@ using UnityEngine.AI;
 public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
 {
     bool isIdle;
+    public GameObject meteorFactory;
+    GameObject meteor;
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
     void Start()
     {
         nvAgent = GetComponent<NavMeshAgent>();
@@ -58,7 +65,6 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
             setState(State.Chase, "Chase");
         }
     }
-
     private void UpdateChase()
     {
         //추적을 다시 시작하고 싶다.
@@ -70,12 +76,40 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
         nvAgent.destination = target.transform.position;
 
         float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
-        if (distToPlayer < nvAgent.stoppingDistance)
+
+        //몬스터의 정면에 플레이어가 포착되면 메테오를 소환하고 싶다.
+        RaycastHit[] attackTarget = Physics.SphereCastAll(transform.position, 3f, transform.forward, traceRadius * 2, 1 << LayerMask.NameToLayer("Player"));
+
+        if (distToPlayer >= traceRadius * 1.2 && attackTarget.Length > 0 && isAttack == false)
         {
-            //공격상태로 전이하고 싶다.
-            // state = State.Attack;
+            //메테오를 소환하고 싶다.
+            meteor = Instantiate(meteorFactory);
+            meteor.transform.position = target.transform.position - target.transform.up * 0.8f;
+            isAttack = true;
+            StartCoroutine(IEMeteor());
+        }
+        else if (distToPlayer <= nvAgent.stoppingDistance)
+        {
+            //StopCoroutine(IERush());
             setState(State.Attack, "Attack");
         }
+    }
+
+    IEnumerator IEMeteor()
+    {
+
+        BoxCollider meteorCollider = meteor.GetComponent<BoxCollider>();
+        meteorCollider.enabled = false;
+        yield return new WaitForSeconds(1.6f);
+        for (int i = 0; i < 3; i++)
+        {
+            meteorCollider.enabled = true;
+            yield return new WaitForSeconds(0.2f);
+            meteorCollider.enabled = false;
+        }
+
+        isAttack = false;
+        Destroy(meteor);
     }
 
     private void UpdateIdle()

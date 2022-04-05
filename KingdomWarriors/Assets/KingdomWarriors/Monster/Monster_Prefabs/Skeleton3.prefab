@@ -685,13 +685,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a963fff7d7861ab408cd6e63e786a179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathExp: 6
+  deathDropExp: 6
   maxHP: 100
   hp: 0
   maxMP: 10
   mp: 0
-  levelUpEffectFactory: {fileID: 0}
-  isNoramlAttackLock: 0
+  offensePower: 1
+  defensePower: 1
 --- !u!1 &4975628019513527170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,7 +1192,7 @@ PrefabInstance:
     - target: {fileID: 95354957913302332, guid: 3e4cf0221a0e8db41bcb50be99ebe457, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: b72600c273a47a244b2bf9dbe181d945, type: 2}
+      objectReference: {fileID: 9100000, guid: 6b6e544121ac9f247be447e8caa7d9b7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e4cf0221a0e8db41bcb50be99ebe457, type: 3}
 --- !u!1 &3505492313096545982 stripped

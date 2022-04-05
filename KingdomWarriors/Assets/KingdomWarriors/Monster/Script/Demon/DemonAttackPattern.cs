@@ -8,6 +8,10 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
 {
     public ParticleSystem dust;
     Rigidbody rb;
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -106,7 +110,7 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
         }
         else if (distToPlayer <= nvAgent.stoppingDistance)
         {
-            StopCoroutine(IERush());
+            //StopCoroutine(IERush());
             setState(State.Attack, "Attack");
         }
     }
