@@ -7,46 +7,53 @@ using ModeState = CharacterState.Mode.State;
 using MoveState = CharacterState.Move.State;
 using ActionState = CharacterState.Action.State;
 
-public class Logger{
-    public enum Tag{
+public class Logger
+{
+    public enum Tag
+    {
         State
     }
 
-    public static void Log(Tag tag, object msg){
+    public static void Log(Tag tag, object msg)
+    {
         Logger.Log(tag.ToString(), msg);
     }
-    public static void Log(string tag, object msg){
+    public static void Log(string tag, object msg)
+    {
         Debug.Log("[" + tag + "], " + msg.ToString());
     }
 }
 
-public class SswPlayerMediator :    MonoBehaviour, 
-                                    CharacterMediator, 
+public class SswPlayerMediator : MonoBehaviour,
+                                    CharacterMediator,
                                     Interaction.Attack,
                                     // CharacterState.Mode.Receiver,
                                     // CharacterState.Move.Receiver, 
                                     // CharacterState.Action.Receiver, 
                                     OnAttackEvent
 {
-    private CharacterStatus PlayerStatus {get; set;}
+    private CharacterStatus PlayerStatus { get; set; }
 
-    private SswPlayerCameraMove PlayerCameraMove {get; set;}
-    private SswPlayerInputMove PlayerInputMove {get; set;}
-    private SswPlayerShortcutKeys PlayerShortcutKeys {get; set;}
-    private SswPlayerEffector PlayerEffector {get; set;}
-    private SswPlayerAnim PlayerAnim {get; set;}
+    private SswPlayerCameraMove PlayerCameraMove { get; set; }
+    private SswPlayerInputMove PlayerInputMove { get; set; }
+    private SswPlayerShortcutKeys PlayerShortcutKeys { get; set; }
+    private SswPlayerEffector PlayerEffector { get; set; }
+    private SswPlayerAnim PlayerAnim { get; set; }
 
     private WeaponWearableHand rightWeaponHand;
 
-    public static SswPlayerMediator GetFindPlayerMediator(SswPlayerMediator mediator, Animator animator){
-        if(mediator == null){
+    public static SswPlayerMediator GetFindPlayerMediator(SswPlayerMediator mediator, Animator animator)
+    {
+        if (mediator == null)
+        {
             return animator.GetComponent<SswPlayerMediator>();
         }
         return mediator;
     }
-    
-    void Start() {
-        PlayerStatus = GetComponent<CharacterStatus>(); 
+
+    void Start()
+    {
+        PlayerStatus = GetComponent<CharacterStatus>();
         PlayerCameraMove = GetComponent<SswPlayerCameraMove>();
         PlayerInputMove = GetComponent<SswPlayerInputMove>();
         PlayerEffector = GetComponent<SswPlayerEffector>();
@@ -55,54 +62,62 @@ public class SswPlayerMediator :    MonoBehaviour,
         rightWeaponHand = GetComponentInChildren<WeaponWearableHand>();
     }
 
-    void Update() {
+    void Update()
+    {
 
     }
 
     /**************************************************
      * 상태 관련 함수
      */
-    private void SetState(ModeState state){ PlayerStatus.SetState(state); }
-    private void SetState(MoveState state){ PlayerStatus.SetState(state); }
-    private void SetState(ActionState state){ PlayerStatus.SetState(state); }
+    private void SetState(ModeState state) { PlayerStatus.SetState(state); }
+    private void SetState(MoveState state) { PlayerStatus.SetState(state); }
+    private void SetState(ActionState state) { PlayerStatus.SetState(state); }
 
-    public bool IsCheckState(ModeState state){ return PlayerStatus.IsCheckState(state);}
-    public bool IsCheckState(MoveState state){return PlayerStatus.IsCheckState(state);}    
-    public bool IsCheckState(ActionState state){return PlayerStatus.IsCheckState(state);}
+    public bool IsCheckState(ModeState state) { return PlayerStatus.IsCheckState(state); }
+    public bool IsCheckState(MoveState state) { return PlayerStatus.IsCheckState(state); }
+    public bool IsCheckState(ActionState state) { return PlayerStatus.IsCheckState(state); }
 
-    public ModeState GetModeState(){ return PlayerStatus.ModeState.CurrentState; }
-    public MoveState GetMoveState(){ return PlayerStatus.MoveState.CurrentState; }
-    public ActionState GetActionState(){ return PlayerStatus.ActionState.CurrentState; }
+    public ModeState GetModeState() { return PlayerStatus.ModeState.CurrentState; }
+    public MoveState GetMoveState() { return PlayerStatus.MoveState.CurrentState; }
+    public ActionState GetActionState() { return PlayerStatus.ActionState.CurrentState; }
 
-    public bool IsAttacking(){
-        return  IsCheckState(ActionState.NoramlAttack) ||
+    public bool IsAttacking()
+    {
+        return IsCheckState(ActionState.NoramlAttack) ||
                 IsCheckState(ActionState.HeavyAttack) ||
                 IsCheckState(ActionState.FinishAttack);
     }
 
     // 이동 애니메이션 처리 (프레임 당 지속 호출)
-    public void UpdateMove(Vector3 dir, Vector3 velocity){
+    public void UpdateMove(Vector3 dir, Vector3 velocity)
+    {
         PlayerAnim.SetMove(dir);
     }
 
     /**************************************************
      * 캐릭터 기능
      */
-    public void Idle(){
+    public void Idle()
+    {
         SetState(ActionState.Idle);
     }
 
-    public void Stay(){
+    public void Stay()
+    {
         SetState(MoveState.Stay);
-        if(IsAttacking()){
+        if (IsAttacking())
+        {
             return;
         }
-        if(IsCheckState(MoveState.Stay)){
+        if (IsCheckState(MoveState.Stay))
+        {
             PlayerAnim.SetStay();
         }
     }
 
-    public void Walk(){
+    public void Walk()
+    {
         SetState(MoveState.Walk);
         PlayerInputMove.SetWalk();
 
@@ -110,7 +125,8 @@ public class SswPlayerMediator :    MonoBehaviour,
         PlayerAnim.SetWalk(isPlayAnim);
     }
 
-    public void Run(){
+    public void Run()
+    {
         SetState(MoveState.Run);
         PlayerInputMove.SetRun();
 
@@ -118,20 +134,24 @@ public class SswPlayerMediator :    MonoBehaviour,
         PlayerAnim.SetRun(isPlayAnim);
     }
 
-    public void Jump(){
+    public void Jump()
+    {
         SetState(ActionState.Jump);
         PlayerAnim.Jump();
         PlayerInputMove.SetJump();
     }
 
-    public void Landing(){
+    public void Landing()
+    {
         SetState(ActionState.Landing);
         PlayerInputMove.SetLanding();
         PlayerAnim.Landing();
     }
 
-    public void Dash(Vector3 dir, float dashHoldingTime){
-        if(IsAttacking()){
+    public void Dash(Vector3 dir, float dashHoldingTime)
+    {
+        if (IsAttacking())
+        {
             return;
         }
 
@@ -140,58 +160,68 @@ public class SswPlayerMediator :    MonoBehaviour,
         StartCoroutine(CRDashEnd(dashHoldingTime));
     }
 
-    private IEnumerator CRDashEnd(float dashHoldingTime){
+    private IEnumerator CRDashEnd(float dashHoldingTime)
+    {
         PlayerAnim.Dash();
         yield return new WaitForSeconds(dashHoldingTime);
         PlayerAnim.DashEnd();
         Stay();
     }
 
-    public void RecoveryHp(int amount){
+    public void RecoveryHp(int amount)
+    {
         Logger.Log(Logger.Tag.State, "회복 전 체력 : " + PlayerStatus.HP);
-        
-        int recoveryHp = (PlayerStatus.MaxHP <= (PlayerStatus.HP+amount)) ? PlayerStatus.MaxHP : PlayerStatus.HP+amount;
+
+        int recoveryHp = (PlayerStatus.MaxHP <= (PlayerStatus.HP + amount)) ? PlayerStatus.MaxHP : PlayerStatus.HP + amount;
 
         PlayerStatus.SetRecoveryHP(amount);
         PlayerEffector.RecoveryHpEffect();
-    
+
         Logger.Log(Logger.Tag.State, "회복 후 체력 : " + PlayerStatus.HP);
     }
 
-    public void Death(){
+    public void Death()
+    {
         Logger.Log("죽음", "????");
     }
 
-    public void ExpIncrease(int amount){
+    public void ExpIncrease(int amount)
+    {
         PlayerStatus.ExpIncrease(amount);
     }
 
-    public void LevelUp(){
+    public void LevelUp()
+    {
         PlayerEffector.LevelUp();
     }
 
-    public void NormalAttack(){
+    public void NormalAttack()
+    {
         SetState(ActionState.NoramlAttack);
         rightWeaponHand.Attack(true);
         PlayerAnim.NoramlAttack();
-   //     StopCoroutine("CRResetComboCount");
+        //     StopCoroutine("CRResetComboCount");
     }
 
-    public void HeavyAttack(){
+    public void HeavyAttack()
+    {
         SetState(ActionState.HeavyAttack);
         rightWeaponHand.Attack(true);
         PlayerAnim.HeavyAttack();
-     //   StopCoroutine("CRResetComboCount");
+        //   StopCoroutine("CRResetComboCount");
     }
 
-    public void EquipmentChange(WeaponStatus weapon){
+    public void EquipmentChange(WeaponStatus weapon)
+    {
         rightWeaponHand.SetChangeWeapon(weapon);
     }
 
     // 임시로 오른손 무기 변경만 구현
-    public bool PickUpItem(GameItem item){
-    //    if(typeof(WeaponStatus).IsInstanceOfType(item)){
-        if(item is WeaponStatus){
+    public bool PickUpItem(GameItem item)
+    {
+        //    if(typeof(WeaponStatus).IsInstanceOfType(item)){
+        if (item is WeaponStatus)
+        {
             item.gameObject.SetActive(false);
             EquipmentChange((WeaponStatus)item);
             return true;
@@ -199,14 +229,17 @@ public class SswPlayerMediator :    MonoBehaviour,
         return false;
     }
 
-    public void AttackEnd(){
+    public void AttackEnd()
+    {
         StopCoroutine("CRResetComboCount");
         StartCoroutine("CRResetComboCount");
         rightWeaponHand.Attack(false);
     }
 
-    private IEnumerator CRResetComboCount(){
-        if(PlayerAnim.IsMove()){
+    private IEnumerator CRResetComboCount()
+    {
+        if (PlayerAnim.IsMove())
+        {
             Idle();
             Stay();
         }
@@ -214,18 +247,27 @@ public class SswPlayerMediator :    MonoBehaviour,
         PlayerAnim.ResetComboCount();
     }
 
-    public void OnAttackDetect(GameObject hitTarget, WeaponStatus weaponStatus){
+    public GameObject hudDamageText;
+    public Transform hudPos;
+    public void OnAttackDetect(GameObject hitTarget, WeaponStatus weaponStatus)
+    {
         Interaction.Attack target = hitTarget.GetComponent<Interaction.Attack>();
-        if(target == null){
+        if (target == null)
+        {
             return;
         }
         target.OnAttackHit(weaponStatus.power * PlayerStatus.OffensePower);
+        //데미지 수치 UI 컴포넌트 kdy
+        GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
+        hudText.GetComponentInChildren<DamageUp>().DAMAGE = weaponStatus.power * PlayerStatus.OffensePower;
+        hudText.transform.position = transform.position; // 표시될 위치
     }
 
     public void OnAttackHit(int damage)
     {
         damage -= PlayerStatus.OffensePower;
-        if(damage < 1){
+        if (damage < 1)
+        {
             damage = 1;
         }
         PlayerStatus.SetDamage(damage);

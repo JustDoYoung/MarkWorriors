@@ -33,6 +33,15 @@ public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
     protected bool isChase;
     protected bool isAttack;
     public GameObject hitVFX;
+
+    // public GameObject monsterAttackSound;
+    // AudioSource monsterAttackSource;
+    // AudioClip monsterAttackClip;
+    private void Awake()
+    {
+        // monsterAttackSource = monsterAttackSound.GetComponent<AudioSource>();
+        // monsterAttackClip = monsterAttackSource.clip;
+    }
     protected void setState(State next, string animationName)
     {
         if (state != next)
@@ -46,7 +55,6 @@ public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
 
     public void OnAttackHit(int damage)
     {
-
         hitVFX.SetActive(true);
 
         if (state == State.Rush) return;
@@ -88,9 +96,42 @@ public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
             setState(State.Chase, "Chase");
         }
     }
-
-    internal void OnMonsterDeathAnimFinished()
+    internal void MonsterAttackFinish()
     {
-        Destroy(gameObject);
+        // hitVFX.SetActive(false);
+        print("React Off");
+        ////추적을 다시 시작하고 싶다.
+        nvAgent.enabled = true;
+        nvAgent.isStopped = false;
+        float distToPlayer = Vector3.Distance(transform.position, target.transform.position); //target과의 거리
+        //공격범위 안에 플레이어가 있다면
+        if (distToPlayer <= nvAgent.stoppingDistance)
+        {
+            // //공격상태로 전이하고 싶다.
+            setState(State.Attack, "Attack");
+        }
+        else
+        {
+            // //추적상태로 전이하고 싶다.
+            setState(State.Chase, "Chase");
+        }
+    }
+
+    //가상함수
+    internal virtual void OnMonsterDeathAnimFinished()
+    {
+        Destroy(gameObject, 2.15f);
+    }
+    internal virtual void MonsterGrowlSoundActivation()
+    {
+        //   monsterAttackSource.PlayOneShot(monsterAttackClip);
+    }
+    internal virtual void MonsterReactSoundActivation()
+    {
+
+    }
+    internal virtual void DemonRushSoundActivation()
+    {
+
     }
 }

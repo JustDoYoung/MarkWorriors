@@ -5,7 +5,27 @@ using UnityEngine.AI;
 
 public class SkeletonAttackPattern : MonsterAttackPatternCommon
 {
+    public GameObject SkeletonDeathSound;
 
+    AudioSource SkeletonDeathSource;
+
+    AudioClip SkeletonDeathClip;
+    public GameObject monsterAttackSound;
+    AudioSource monsterAttackSource;
+    AudioClip monsterAttackClip;
+    public GameObject monsterClankSound;
+    AudioSource monsterClankSource;
+    AudioClip monsterClankClip;
+
+    private void Awake()
+    {
+        SkeletonDeathSource = SkeletonDeathSound.GetComponent<AudioSource>();
+        SkeletonDeathClip = SkeletonDeathSource.clip;
+        monsterAttackSource = monsterAttackSound.GetComponent<AudioSource>();
+        monsterAttackClip = monsterAttackSource.clip;
+        monsterClankSource = monsterClankSound.GetComponent<AudioSource>();
+        monsterClankClip = monsterClankSource.clip;
+    }
     void Start()
     {
         nvAgent = GetComponent<NavMeshAgent>();
@@ -106,5 +126,20 @@ public class SkeletonAttackPattern : MonsterAttackPatternCommon
             //상태를 Chase로 바꾸고 싶다.
             setState(State.Chase, "Chase");
         }
+    }
+    //가상함수 재정의
+    internal override void OnMonsterDeathAnimFinished()
+    {
+        SkeletonDeathSource.PlayOneShot(SkeletonDeathClip);
+        base.OnMonsterDeathAnimFinished();
+        GeneratorManager.instance.KILLCOUNT++;
+    }
+    internal override void MonsterGrowlSoundActivation()
+    {
+        monsterAttackSource.PlayOneShot(monsterAttackClip);
+    }
+    internal override void MonsterReactSoundActivation()
+    {
+        monsterClankSource.PlayOneShot(monsterClankClip);
     }
 }

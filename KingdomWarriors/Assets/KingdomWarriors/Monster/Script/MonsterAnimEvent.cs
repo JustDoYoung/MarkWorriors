@@ -17,20 +17,36 @@ public class MonsterAnimEvent : MonoBehaviour
     // {
     //     monster.OnMonsterAttackHit();
     // }
-    public void OnMonsterReactAnimFinished()
+    internal void OnMonsterReactAnimFinished()
     {
         monster.OnMonsterReactAnimFinished();
     }
-    public void OnMonsterDeathAnimFinished()
+    internal void OnMonsterDeathAnimFinished()
     {
         monster.OnMonsterDeathAnimFinished();
     }
-    public void MonsterAttackActivation()
+    internal void MonsterAttackFinish()
+    {
+        monster.MonsterAttackFinish();
+    }
+    internal void MonsterAttackActivation()
     {
         monsterAttack.MonsterAttackActivation();
     }
-    public void MonsterAttackInActivation()
+    internal void MonsterAttackInActivation()
     {
         monsterAttack.MonsterAttackInActivation();
+    }
+    internal void MonsterGrowlSoundActivation()
+    {
+        monster.MonsterGrowlSoundActivation();
+    }
+    internal void MonsterReactSoundActivation()
+    {
+        monster.MonsterReactSoundActivation();
+    }
+    internal void DemonRushSoundActivation()
+    {
+        monster.DemonRushSoundActivation();
     }
 }

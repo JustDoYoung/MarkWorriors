@@ -70,8 +70,6 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
         //추적을 다시 시작하고 싶다.
         nvAgent.isStopped = false;
 
-        //setState(State.Chase, "Chase");
-
         //target 쪽으로 추적을 하고 싶다.
         nvAgent.destination = target.transform.position;
 
@@ -80,7 +78,7 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
         //몬스터의 정면에 플레이어가 포착되면 메테오를 소환하고 싶다.
         RaycastHit[] attackTarget = Physics.SphereCastAll(transform.position, 3f, transform.forward, traceRadius * 2, 1 << LayerMask.NameToLayer("Player"));
 
-        if (distToPlayer >= traceRadius * 1.2 && attackTarget.Length > 0 && isAttack == false)
+        if (distToPlayer >= traceRadius * 1.5 && attackTarget.Length > 0 && isAttack == false)
         {
             //메테오를 소환하고 싶다.
             meteor = Instantiate(meteorFactory);
@@ -90,24 +88,21 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
         }
         else if (distToPlayer <= nvAgent.stoppingDistance)
         {
-            //StopCoroutine(IERush());
             setState(State.Attack, "Attack");
         }
     }
 
     IEnumerator IEMeteor()
     {
-
         BoxCollider meteorCollider = meteor.GetComponent<BoxCollider>();
         meteorCollider.enabled = false;
-        yield return new WaitForSeconds(1.6f);
-        for (int i = 0; i < 3; i++)
+        yield return new WaitForSeconds(1.5f);
+        for (int i = 0; i < 5; i++)
         {
             meteorCollider.enabled = true;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
             meteorCollider.enabled = false;
         }
-
         isAttack = false;
         Destroy(meteor);
     }

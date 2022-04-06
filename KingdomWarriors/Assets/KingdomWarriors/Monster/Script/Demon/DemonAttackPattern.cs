@@ -6,11 +6,32 @@ using UnityEngine.AI;
 
 public class DemonAttackPattern : MonsterAttackPatternCommon
 {
+    public GameObject DemonDeathSound;
+    AudioSource DemonDeathSource;
+    AudioClip DemonDeathClip;
+    public GameObject DemonRushSound;
+    AudioSource DemonRushSource;
+    AudioClip DemonRushClip;
+    public GameObject monsterAttackSound;
+    AudioSource monsterAttackSource;
+    AudioClip monsterAttackClip;
+    public GameObject monsterClankSound;
+    AudioSource monsterClankSource;
+    AudioClip monsterClankClip;
     public ParticleSystem dust;
     Rigidbody rb;
     private void Awake()
     {
         gameObject.SetActive(false);
+        DemonDeathSource = DemonDeathSound.GetComponent<AudioSource>();
+        DemonDeathClip = DemonDeathSource.clip;
+        monsterAttackSource = monsterAttackSound.GetComponent<AudioSource>();
+        monsterAttackClip = monsterAttackSource.clip;
+        monsterClankSource = monsterClankSound.GetComponent<AudioSource>();
+        monsterClankClip = monsterClankSource.clip;
+        DemonRushSource = DemonRushSound.GetComponent<AudioSource>();
+        DemonRushClip = DemonRushSource.clip;
+
     }
     void Start()
     {
@@ -35,9 +56,14 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
             case State.Attack:
                 UpdateAttack();
                 break;
-
         }
     }
+    // internal override void MonsterAttackActivation()
+    // {
+    //     base.MonsterAttackActivation();
+    //     DemonGrowlSource.PlayOneShot(DemonGrowlClip);
+    // }
+
     private void UpdateAttack()
     {
         //공격 시도 중 플레이어가 범위 밖으로 나가면 미끄러지듯 접근하게 된다.(추적중지)
@@ -130,5 +156,23 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
             //상태를 Chase로 바꾸고 싶다.
             setState(State.Chase, "Chase");
         }
+    }
+    internal override void OnMonsterDeathAnimFinished()
+    {
+        DemonDeathSource.PlayOneShot(DemonDeathClip);
+        base.OnMonsterDeathAnimFinished();
+        GeneratorManager.instance.DEMONKILLCOUNT--;
+    }
+    internal override void MonsterGrowlSoundActivation()
+    {
+        monsterAttackSource.PlayOneShot(monsterAttackClip);
+    }
+    internal override void MonsterReactSoundActivation()
+    {
+        monsterClankSource.PlayOneShot(monsterClankClip);
+    }
+    internal override void DemonRushSoundActivation()
+    {
+        DemonRushSource.PlayOneShot(DemonRushClip);
     }
 }

@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\GeneratorManager.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Common\SswCharacterStatus.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\MonsterRegenerator.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_InspectorHelp.cs" />
@@ -43,6 +44,7 @@
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Animations\SswPlayerAnimEventProxy.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\ZTrash\monster.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_RotateCamera.cs" />
+     <Compile Include="Assets\TimeManager.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerAnim.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\PatrolLocation.cs" />
@@ -89,6 +91,8 @@
      <Compile Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo track markers\RaycastInstance.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_New.cs" />
      <Compile Include="Assets\Hovl Studio\RPG VFX Bundle\Scripts\AutoDestroyPS.cs" />
+     <Compile Include="Assets\KingdomWarriors\Monster\Script\UndeadKnight\UndeadKnight_Meteor.cs" />
+     <Compile Include="Assets\FloatingText.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightFlicker.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoDestructShuriken.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerItemFinder.cs" />
@@ -97,14 +101,16 @@
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerEffector.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerInputMove.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\MonsterAttackPatternCommon.cs" />
-     <Compile Include="Assets\KingdomWarriors\Monster\Script\UndeadKnight\UndeadKnight_Meteor.cs" />
-     <Compile Include="Assets\TimeManager.cs" />
+     <Compile Include="Assets\KingdomWarriors\Monster\Script\DamageUp.cs" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo projectiles\Readme.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Multiply Color.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Demo scene\HDRP and URP.txt" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR Particle Glow.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR Particle Ubershader.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_SETTINGS.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Prefabs\Projectiles\Readme.txt" />
      <None Include="Assets\JMO Assets\Cartoon FX\CartoonFX Free.txt" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo AOE skills\Readme.txt" />
@@ -112,12 +118,15 @@
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Shaders\SmoothSmoke.shader" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Prefabs\HDRP and URP(LWRP).txt" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo magic circles Vol 1\Readme.txt" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\DissolveNoise.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX (legacy)\CartoonFX3 Readme.txt" />
      <None Include="Assets\JMO Assets\Cartoon FX Easy Editor\CartoonFX Easy Editor Readme.txt" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo scene lasers\If you want to use lasers in 2D.txt" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Add_Fresnel.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Ice.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Distortion.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Blend_TwoSides.shader" />
@@ -126,24 +135,39 @@
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Shaders\Blend_Normals.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Demo scene\Readme.txt" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Prefabs\AOE spells\Readme.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo scene lasers\Readme.txt" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Shaders\LightGlow.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Lightning.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Prefabs\Magic circles\Loop version\How to use.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Prefabs\Texts\_Make your own text effect.txt" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\BlendDistort.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Shaders\AddTrail.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Scroll.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Invert.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR Particle Procedural Ring.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Add_CenterGlow.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_URP.cginc" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo AOE skills\HDRP and URP(LWRP).txt" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Scripts\Readme.txt" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\Readme Cartoon FX Remaster 3.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\Explosion.shader" />
      <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR Particle Distortion.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\Hovl Studio\Sword slash VFX\Shaders\SwordSlash.shader" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.30f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

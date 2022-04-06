@@ -425,6 +425,7 @@ MonoBehaviour:
   traceZone: {fileID: 8819583560336825749}
   anim: {fileID: 8878378366190195514}
   hitVFX: {fileID: 7523307110859949378}
+  monsterAttackSound: {fileID: 382324755651694385, guid: 85d229b3502786a40aa3b9c4491ed983, type: 3}
   meteorFactory: {fileID: 4169007429579274595, guid: 63268e90251577845bc4a195ebb6e25b, type: 3}
 --- !u!114 &5520576040426752337
 MonoBehaviour:
@@ -439,11 +440,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathDropExp: 6
-  maxHP: 1000
+  maxHP: 9999999
   hp: 0
   maxMP: 10
   mp: 0
-  offensePower: 1
+  offensePower: 500
   defensePower: 1
 --- !u!1 &8819583560678785375
 GameObject:
@@ -803,7 +804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7966506710764498812, guid: ee3350dcea8008a48ab3db385b2240a3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.76
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 7966506710764498812, guid: ee3350dcea8008a48ab3db385b2240a3, type: 3}
       propertyPath: m_LocalRotation.w
