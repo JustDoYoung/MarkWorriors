@@ -248,7 +248,6 @@ public class SswPlayerMediator : MonoBehaviour,
     }
 
     public GameObject hudDamageText;
-    public Transform hudPos;
     public void OnAttackDetect(GameObject hitTarget, WeaponStatus weaponStatus)
     {
         Interaction.Attack target = hitTarget.GetComponent<Interaction.Attack>();
@@ -260,7 +259,7 @@ public class SswPlayerMediator : MonoBehaviour,
         //데미지 수치 UI 컴포넌트 kdy
         GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
         hudText.GetComponentInChildren<DamageUp>().DAMAGE = weaponStatus.power * PlayerStatus.OffensePower;
-        hudText.transform.position = transform.position; // 표시될 위치
+        hudText.transform.position = hitTarget.transform.position; // 표시될 위치
     }
 
     public void OnAttackHit(int damage)

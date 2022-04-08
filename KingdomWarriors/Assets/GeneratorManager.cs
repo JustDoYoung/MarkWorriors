@@ -10,10 +10,11 @@ public class GeneratorManager : MonoBehaviour
         GeneratorManager.instance = this;
     }
     public float maxCount = 10;
-    public int killCount = 0;
-    public int DemonKillCount = 3;
     public int createCount = 0;
+    public int killCount = 0;
     public int demonAwakeCondition = 10;
+    public int DemonKillCount = 3;
+
     public GameObject[] hiddenMonster;
     public int KILLCOUNT
     {
@@ -53,6 +54,7 @@ public class GeneratorManager : MonoBehaviour
         {
             for (int i = 0; i < hiddenMonster.Length; i++)
             {
+                if (hiddenMonster[i] == null) continue;
                 if (hiddenMonster[i].name.Contains("Undead"))
                 {
                     hiddenMonster[i].SetActive(true);

@@ -80,6 +80,7 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
 
         // transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 2);
     }
+    public float rushPower = 30;
     IEnumerator IERush()
     {
         dust.Play();
@@ -90,20 +91,20 @@ public class DemonAttackPattern : MonsterAttackPatternCommon
         yield return new WaitForSeconds(1f);
         nvAgent.enabled = false;
         rb.isKinematic = false;
-        rb.AddForce(transform.forward * 30, ForceMode.Impulse);
-        yield return new WaitForSeconds(0.7f);
+        rb.AddForce(transform.forward * rushPower, ForceMode.Impulse);
+        yield return new WaitForSeconds(1f);
         dust.Stop();
         rb.isKinematic = true;
         rb.velocity = Vector3.zero;
-        if (distToPlayer > nvAgent.stoppingDistance)
-        {
-            print("Idle");
-            nvAgent.enabled = true;
-            isAttack = false;
-            setState(State.Idle, "Idle");
-            yield break;
-        }
-        // rb.isKinematic = true;
+        // if (distToPlayer > nvAgent.stoppingDistance)
+        // {
+        //     print("Idle");
+        //     nvAgent.enabled = true;
+        //     isAttack = false;
+        //     setState(State.Idle, "Idle");
+        //     yield break;
+        // }
+        // // rb.isKinematic = true;
         nvAgent.enabled = true;
         isAttack = false;
         setState(State.Chase, "Chase");

@@ -63,6 +63,7 @@
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutodestructWhenNoChildren.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Spawn System\CFX_SpawnSystem.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerCameraMove.cs" />
+     <Compile Include="Assets\KingdomWarriors\Monster\Script\DamageUp.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerShortcutKeys.cs" />
      <Compile Include="Assets\KingdomWarriors\Common\Scripts\CharacterStatus.cs" />
@@ -101,7 +102,7 @@
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerEffector.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerInputMove.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\MonsterAttackPatternCommon.cs" />
-     <Compile Include="Assets\KingdomWarriors\Monster\Script\DamageUp.cs" />
+     <Compile Include="Assets\GameOverManager.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo projectiles\Readme.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

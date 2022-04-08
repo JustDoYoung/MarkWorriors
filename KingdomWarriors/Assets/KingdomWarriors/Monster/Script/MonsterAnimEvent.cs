@@ -49,4 +49,8 @@ public class MonsterAnimEvent : MonoBehaviour
     {
         monster.DemonRushSoundActivation();
     }
+    internal void UndeadKnigthSlashSoundActivation()
+    {
+        monster.UndeadKnigthSlashSoundActivation();
+    }
 }

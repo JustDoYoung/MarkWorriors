@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour
 
     void Start()
     {
-        textTime.text = "3 : 00";
+        textTime.text = "00 : 00";
     }
 
     void Update()
@@ -29,10 +29,30 @@ public class TimeManager : MonoBehaviour
         int second = (int)setTime % 60;
         if (setTime < 0)
         {
-            return;
+            GameOverManager.instance.GameOverUI.SetActive(true);
         }
 
-        if (setTime > 60)
+        //00:00 자릿수에 맞춰 시간을 표현하고 싶다.
+        //10:00 이상일 때 0을 붙이지 않는다.
+        //10분 미만일 때는 분 단위에 0을 붙인다.
+
+        //초 단위가 10초 이하일 때는 0을 붙인다.
+        //10초 이상일 때는 0을 붙이지 않는다.
+
+        if (setTime >= 600)
+        {
+            if (second < 10)
+            {
+                textTime.text = min + " : 0" + second;
+            }
+            else
+            {
+                textTime.text = min + " : " + second;
+            }
+
+            // textTime.text = "0" + min + " : 0" + second;
+        }
+        else if (setTime > 0)
         {
             if (second < 10)
             {
@@ -43,9 +63,6 @@ public class TimeManager : MonoBehaviour
                 textTime.text = "0" + min + " : " + second;
             }
         }
-        else
-        {
-            textTime.text = "00 : " + second;
-        }
+
     }
 }

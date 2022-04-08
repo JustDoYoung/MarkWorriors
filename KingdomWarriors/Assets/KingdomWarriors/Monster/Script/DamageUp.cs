@@ -38,6 +38,8 @@ public class DamageUp : MonoBehaviour
 
         alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * alphaSpeed); // 텍스트 알파값
         text.color = alpha;
+
+        transform.rotation = Camera.main.transform.rotation;
     }
     private void DestroyObject()
     {

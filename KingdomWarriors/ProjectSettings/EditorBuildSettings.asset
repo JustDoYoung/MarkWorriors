@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/KingdomWarriors/SampleScene.unity
+    guid: e8687322ce9558d4fbeb7f6eb92512b1
   m_configObjects: {}

@@ -118,19 +118,24 @@ public class MonsterAttackPatternCommon : MonoBehaviour, Interaction.Attack
     }
 
     //가상함수
+    //애니메이션 이벤트와 연결된 오디오소스 클립
     internal virtual void OnMonsterDeathAnimFinished()
     {
         Destroy(gameObject, 2.15f);
     }
     internal virtual void MonsterGrowlSoundActivation()
     {
-        //   monsterAttackSource.PlayOneShot(monsterAttackClip);
+
     }
     internal virtual void MonsterReactSoundActivation()
     {
 
     }
     internal virtual void DemonRushSoundActivation()
+    {
+
+    }
+    internal virtual void UndeadKnigthSlashSoundActivation()
     {
 
     }

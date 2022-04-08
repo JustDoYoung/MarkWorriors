@@ -1236,6 +1236,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 4975628019115456868}
     m_Modifications:
     - target: {fileID: 876005444612080764, guid: 0a3cbcff9c298e44da5638cea4aa5777, type: 3}
+      propertyPath: m_Volume
+      value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 876005444612080764, guid: 0a3cbcff9c298e44da5638cea4aa5777, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
@@ -1349,6 +1353,10 @@ PrefabInstance:
     - target: {fileID: 2573661605312894314, guid: ecfd084f730b247488d0b574db73d14e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259628293676910361, guid: ecfd084f730b247488d0b574db73d14e, type: 3}
+      propertyPath: m_Volume
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 7312308081499924750, guid: ecfd084f730b247488d0b574db73d14e, type: 3}
       propertyPath: m_Name

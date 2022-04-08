@@ -6,11 +6,21 @@ using UnityEngine.AI;
 
 public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
 {
+    public GameObject UndeadKnightSlashSound;
+    AudioSource UndeadKnightSlashSource;
+    AudioClip UndeadKnightSlashClip;
+    public GameObject monsterClankSound;
+    AudioSource monsterClankSource;
+    AudioClip monsterClankClip;
     bool isIdle;
     public GameObject meteorFactory;
     GameObject meteor;
     private void Awake()
     {
+        UndeadKnightSlashSource = UndeadKnightSlashSound.GetComponent<AudioSource>();
+        UndeadKnightSlashClip = UndeadKnightSlashSource.clip;
+        monsterClankSource = monsterClankSound.GetComponent<AudioSource>();
+        monsterClankClip = monsterClankSource.clip;
         gameObject.SetActive(false);
     }
     void Start()
@@ -97,10 +107,10 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
         BoxCollider meteorCollider = meteor.GetComponent<BoxCollider>();
         meteorCollider.enabled = false;
         yield return new WaitForSeconds(1.5f);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 15; i++)
         {
             meteorCollider.enabled = true;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.1f);
             meteorCollider.enabled = false;
         }
         isAttack = false;
@@ -123,5 +133,15 @@ public class UndeadKnightAttackPattern : MonsterAttackPatternCommon
             //상태를 Chase로 바꾸고 싶다.
             setState(State.Chase, "Chase");
         }
+    }
+
+    //애니메이션 이벤트와 연결된 오디오소스 클립
+    internal override void UndeadKnigthSlashSoundActivation()
+    {
+        UndeadKnightSlashSource.PlayOneShot(UndeadKnightSlashClip);
+    }
+    internal override void MonsterReactSoundActivation()
+    {
+        monsterClankSource.PlayOneShot(monsterClankClip);
     }
 }
