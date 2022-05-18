@@ -47,6 +47,7 @@
      <Compile Include="Assets\TimeManager.cs" />
      <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerAnim.cs" />
+     <Compile Include="Assets\GameOverManager.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\PatrolLocation.cs" />
      <Compile Include="Assets\Hovl Studio\RPG VFX Bundle\Scripts\Hovl_Laser2.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\ZTrash\MonsterControll.cs" />
@@ -102,7 +103,8 @@
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerEffector.cs" />
      <Compile Include="Assets\KingdomWarriors\Player\Scripts\Player\SswPlayerInputMove.cs" />
      <Compile Include="Assets\KingdomWarriors\Monster\Script\MonsterAttackPatternCommon.cs" />
-     <Compile Include="Assets\GameOverManager.cs" />
+     <Compile Include="Assets\Animation\Mixamo\Melee Axe Pack\Demo\CameraScroll.cs" />
+     <Compile Include="Assets\Animation\PlayerHandler.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Hovl Studio\RPG VFX Bundle\Demo scenes\Demo projectiles\Readme.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
